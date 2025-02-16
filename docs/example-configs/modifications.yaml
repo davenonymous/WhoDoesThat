@@ -1,0 +1,53 @@
+annotations:
+  - id: org.spongepowered.asm.mixin.injection.Inject
+    description: Modifies Methods
+    type: method
+    params:
+      - id
+      - at
+      - cancellable
+
+events:
+  - id: net.neoforged.neoforge.event.level.BlockEvent$BreakEvent
+    description: Modifies Block Breaking
+  - id: net.neoforged.neoforge.event.level.BlockEvent$EntityPlaceEvent
+    description: Modifies Block Placement
+  - id: net.neoforged.neoforge.event.level.BlockEvent$FarmlandTrampleEvent
+    description: Modifies Farmland Trampling
+  - id: net.neoforged.neoforge.event.level.BlockEvent$FluidPlaceBlockEvent
+    description: Modifies Fluid Block Placement
+  - id: net.neoforged.neoforge.event.level.ExplosionEvent$Start
+    description: Modifies Explosions
+  - id: net.neoforged.neoforge.event.ItemAttributeModifierEvent
+    description: Modifies Item Attributes
+  - id: net.neoforged.neoforge.event.entity.living.LivingDamageEvent
+    description: Modifies Entity Damage Received
+  - id: net.neoforged.neoforge.event.ModifyDefaultComponentsEvent
+    description: Modifies Default Components
+  - id: net.neoforged.neoforge.event.entity.player.PlayerEvent$BreakSpeed
+    description: Modifies Block Breaking Speed
+  - id: net.neoforged.neoforge.client.event.RenderLevelStageEvent
+    description: Modifies World Rendering
+  - id: net.neoforged.neoforge.client.event.RenderPlayerEvent
+    description: Modifies Player Rendering
+  - id: net.neoforged.neoforge.client.event.RenderTooltipEvent$GatherComponents
+    description: Modifies Tooltips
+  - id: net.neoforged.neoforge.client.event.ScreenEvent$Render$Post
+    description: Modifies GUI Rendering
+  - id: net.neoforged.neoforge.client.event.ScreenEvent$Render$Pre
+    description: Modifies GUI Rendering
+  - id: net.neoforged.neoforge.client.event.ScreenEvent$Render
+    description: Modifies GUI Rendering
+  - id: net.neoforged.neoforge.event.village.VillagerTradesEvent
+    description: Modifies Villager Trades
+  - id: net.neoforged.neoforge.event.village.WandererTradesEvent
+    description: Modifies Wandering Trader Trades
+
+mixins:
+  - id: net.minecraft.client.gui.screens.Screen
+    description: Modifies GUI Screens (invasive
+  - id: net.minecraft.world.entity.ai.Brain
+    description: Modifies Entity AI (invasive)
+  - id: net.minecraft.client.renderer.LevelRenderer
+    description: Modifies World Rendering (invasive)
+

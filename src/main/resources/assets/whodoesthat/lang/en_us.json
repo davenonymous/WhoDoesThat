@@ -1,0 +1,48 @@
+{
+	"whodoesthat.configuration.config_folder": "Config Folder",
+	"whodoesthat.configuration.generate_on_config_change": "Generate on Config Change",
+	"whodoesthat.configuration.generate_on_startup": "Generate on Startup",
+	"whodoesthat.configuration.json_target": "JSON Destination",
+	"whodoesthat.configuration.yaml_target": "YAML Destination",
+	"whodoesthat.configuration.csv_target": "CSV Destination",
+
+	"whodoesthat.configuration.config_folder.tooltip": "Where to look for the descriptor configs",
+	"whodoesthat.configuration.generate_on_config_change.tooltip": "If enabled the data will be generated every time one of the descriptor configs is changed",
+	"whodoesthat.configuration.generate_on_startup.tooltip": "If enabled and there are newer mods than the last generation, the data will be generated on startup",
+	"whodoesthat.configuration.json_target.tooltip": "In which file to store the full data as JSON",
+	"whodoesthat.configuration.yaml_target.tooltip": "In which file to store the minified data as YAML",
+	"whodoesthat.configuration.csv_target.tooltip": "In which file to store a summary table as CSV",
+
+	"whodoesthat.configuration.generate_now": "Run analysis now",
+	"whodoesthat.configuration.generate_now.button": "Do it!",
+	"whodoesthat.configuration.generate_now.success": "Success",
+	"whodoesthat.configuration.generate_now.success.tooltip": "Analysis of %d mods took %dms",
+
+	"whodoesthat.configuration.generate_now.errors": "Error",
+	"whodoesthat.configuration.generate_now.tooltip": "Runs the analysis and saves the results",
+
+	"whodoesthat.configuration.show": "Show last results",
+	"whodoesthat.configuration.show.button": "Open screen",
+	"whodoesthat.configuration.show.tooltip": "Opens the screen with the last analysis results",
+
+	"whodoesthat.configuration.paths": "Paths",
+	"whodoesthat.configuration.actions": "Auto-Generation",
+
+	"whodoesthat.configuration.paths.tooltip": "Configure where the results files are stored",
+	"whodoesthat.configuration.actions.tooltip": "Configure when the analysis is run automatically",
+
+	"whodoesthat.configuration.mod_blacklist": "Mod Blacklist",
+	"whodoesthat.configuration.mod_blacklist.tooltip": "List of mods to ignore during analysis",
+
+	"whodoesthat.gui.filter_entry.must.tooltip": "Must have!",
+	"whodoesthat.gui.filter_entry.not.tooltip": "Forbidden!",
+	"whodoesthat.gui.filter_entry.whatever.tooltip": "Ignore this",
+
+	"whodoesthat.gui.filter": "Filters",
+	"whodoesthat.gui.mods": "Matching Mods",
+	"whodoesthat.gui.summary": "Summary",
+	"whodoesthat.gui.events": "Events being listened to",
+	"whodoesthat.gui.mixins": "Modified Classes via Mixins",
+	"whodoesthat.gui.dependencies": "Dependencies",
+	"whodoesthat.gui.inheritance": "Inheritance"
+}
