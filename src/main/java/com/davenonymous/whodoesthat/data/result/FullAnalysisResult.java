@@ -41,21 +41,25 @@ public record FullAnalysisResult(Map<String, ModAnalysisResult> modAnalysisResul
 		forEachMod((modId, modAnalysisResult) -> {
 			yaml.append(modId).append(":\n");
 			modAnalysisResult.modInfoResult().entries().forEach((key, value) -> {
-				if(value.replaceAll("\\n", "").replaceAll("\\s", "").isEmpty()) {
+				if(value.isBlank()) {
 					return;
 				}
 
-				if(key.equals("description") && !value.matches("[a-zA-Z0-9?!._\\-\\s]+")) {
-					yaml.append("  ").append(key).append(": |\n");
-					for(String line : value.trim().split("\n")) {
-						if(line.trim().isEmpty()) {
-							continue;
-						}
-						yaml.append("    ").append(line.trim()).append("\n");
+				if(key.equals("description") && !value.matches("^[a-zA-Z0-9?!._\\-\\s]+$")) {
+					List<String> descriptionLines = Arrays.stream(value.split("\n"))
+						.map(String::trim)
+						.filter(s -> !s.isBlank())
+						.toList();
+
+					if(descriptionLines.isEmpty()) {
+						return;
 					}
+
+					yaml.append("  ").append(key).append(": |-\n");
+					descriptionLines.forEach(line -> yaml.append("    ").append(line).append("\n"));
 					return;
 				}
-				yaml.append("  ").append(key).append(": ").append(value).append("\n");
+				yaml.append("  ").append(key).append(": ").append(value.replaceAll("\n", "").trim()).append("\n");
 			});
 			var dependencies = modAnalysisResult.dependenciesWithoutDisabledMods();
 			if(!dependencies.isEmpty()) {
