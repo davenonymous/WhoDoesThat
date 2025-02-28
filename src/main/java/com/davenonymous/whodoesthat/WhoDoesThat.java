@@ -1,10 +1,11 @@
 package com.davenonymous.whodoesthat;
 
-import com.davenonymous.whodoesthat.config.*;
+import com.davenonymous.whodoesthat.config.ActionConfig;
+import com.davenonymous.whodoesthat.config.ModConfig;
+import com.davenonymous.whodoesthat.config.PathConfig;
 import com.davenonymous.whodoesthat.data.AllModsAnalyzer;
 import com.davenonymous.whodoesthat.data.result.FullAnalysisResult;
 import com.davenonymous.whodoesthat.gui.ModOverviewScreen;
-import com.electronwill.nightconfig.core.file.FileWatcher;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
@@ -50,28 +51,6 @@ public class WhoDoesThat {
 
 	@SubscribeEvent
 	public void onClientSetup(FMLClientSetupEvent event) {
-		DescriptionConfig instance = DescriptionConfig.INSTANCE;
-		var fileWatcher = FileWatcher.defaultInstance();
-		try(var files = Files.walk(PathConfig.configPath)) {
-			files.filter(Files::isRegularFile).forEach(path -> {
-				fileWatcher.addWatch(
-					path, () -> {
-						instance.load();
-						if(DefaultDescriptions.WRITING_DEFAULTS) {
-							return;
-						}
-						if(ActionConfig.generateOnConfigChange) {
-							if(ActionConfig.generateAsynchronously) {
-								AllModsAnalyzer.generateModInfoFilesAsync();
-							} else {
-								AllModsAnalyzer.generateModInfoFilesLogged();
-							}
-						}
-					}
-				);
-			});
-		} catch (IOException ignored) {
-		}
 
 		CONTAINER.registerExtensionPoint(
 			IConfigScreenFactory.class, (modContainer, screen) -> {

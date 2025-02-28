@@ -7,7 +7,6 @@ import java.util.List;
 
 public class ActionConfig {
 	public static boolean generateAsynchronously;
-	public static boolean generateOnConfigChange;
 	public static boolean generateOnStartup;
 	public static boolean forceGenerateOnStartup;
 	public static HashSet<String> modBlacklist;
@@ -15,7 +14,6 @@ public class ActionConfig {
 	public static boolean csvAlwaysQuote;
 
 	public final ModConfigSpec.BooleanValue GENERATE_ASYNCHRONOUSLY;
-	public final ModConfigSpec.BooleanValue GENERATE_ON_CONFIG_CHANGE;
 	public final ModConfigSpec.BooleanValue GENERATE_ON_STARTUP;
 	public final ModConfigSpec.BooleanValue FORCE_GENERATE_ON_STARTUP;
 	public final ModConfigSpec.ConfigValue<List<? extends String>> MOD_BLACKLIST;
@@ -30,11 +28,6 @@ public class ActionConfig {
 			.comment("Generate mod reports asynchronously")
 			.translation("whodoesthat.configuration.generate_asynchronously")
 			.define("generateAsynchronously", true);
-
-		GENERATE_ON_CONFIG_CHANGE = builder
-			.comment("Generate mod analysis when the config changes")
-			.translation("whodoesthat.configuration.generate_on_config_change")
-			.define("generateOnConfigChange", true);
 
 		GENERATE_ON_STARTUP = builder
 			.comment("Generate mod analysis when the game starts")
@@ -67,7 +60,6 @@ public class ActionConfig {
 
 	public void load() {
 		generateAsynchronously = GENERATE_ASYNCHRONOUSLY.get();
-		generateOnConfigChange = GENERATE_ON_CONFIG_CHANGE.get();
 		generateOnStartup = GENERATE_ON_STARTUP.get();
 		forceGenerateOnStartup = FORCE_GENERATE_ON_STARTUP.get();
 		modBlacklist = new HashSet<>(MOD_BLACKLIST.get());
