@@ -19,41 +19,59 @@ events:
     description: Custom Shaders
 
 files:
-  - glob: "assets/*/blockstates/*.json"
+  - id: assets.blockstates
+    glob: "assets/*/blockstates/*.json"
     description: Custom Blocks
-  - glob: "assets/*/lang/*.json"
+  - id: assets.localization
+    glob: "assets/*/lang/*.json"
     description: Localization
-  - glob: "assets/*/models/block/*"
+  - id: assets.models.block
+    glob: "assets/*/models/block/*"
     description: Custom Block Models
-  - glob: "assets/*/models/item/*"
+  - id: assets.models.item
+    glob: "assets/*/models/item/*"
     description: Custom Item Models
-  - glob: "assets/*/textures/block/*.png"
+  - id: assets.textures.block
+    glob: "assets/*/textures/block/*.png"
     description: Custom Block Textures
-  - glob: "assets/*/textures/item/*.png"
+  - id: assets.textures.item
+    glob: "assets/*/textures/item/*.png"
     description: Custom Item Textures
-  - glob: "assets/*/textures/gui/*.png"
+  - id: assets.textures.gui
+    glob: "assets/*/textures/gui/*.png"
     description: Custom GUI Textures
-  - glob: "data/*/advancement/**/*.json"
+  - id: data.advancements
+    glob: "data/*/advancement/**/*.json"
     description: Custom Advancements
-  - glob: "data/*/tags/**/*.json"
+  - id: data.tag_assignments
+    glob: "data/*/tags/**/*.json"
     description: Custom Tag Assignments
-  - glob: "data/*/loot_modifiers/*.json"
+  - id: data.loot_modifiers
+    glob: "data/*/loot_modifiers/*.json"
     description: Uses Loot Modifiers
-  - glob: "data/*/loot_table/**/*.json"
+  - id: data.loot_tables
+    glob: "data/*/loot_table/**/*.json"
     description: Custom Loot Tables
-  - glob: "data/*/recipe/**/*.json"
+  - id: data.recipes
+    glob: "data/*/recipe/**/*.json"
     description: Custom Recipes
-  - glob: "data/*/structure/**/*.nbt"
+  - id: data.structures
+    glob: "data/*/structure/**/*.nbt"
     description: Custom Structures
-  - glob: "data/*/worldgen/**/*.json"
+  - id: data.worldgen
+    glob: "data/*/worldgen/**/*.json"
     description: Custom World Generation
-  - glob: "data/*/dimension_type/*.json"
+  - id: data.dimension_types
+    glob: "data/*/dimension_type/*.json"
     description: Custom Dimension Types
-  - glob: "data/*/dimension/*.json"
+  - id: data.dimensions
+    glob: "data/*/dimension/*.json"
     description: Custom Dimensions
-  - glob: "data/*/function/*.mcfunction"
+  - id: data.mcfunctions
+    glob: "data/*/function/*.mcfunction"
     description: Uses Minecraft Functions
-  - glob: "assets/*/patchouli_books/**/*.json"
+  - id: assets.patchouli
+    glob: "assets/*/patchouli_books/**/*.json"
     description: Patchouli Guide Book
 
 inheritance:

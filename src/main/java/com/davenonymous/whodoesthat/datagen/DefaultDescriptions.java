@@ -91,24 +91,24 @@ public class DefaultDescriptions implements DataProvider {
 			.inheritance(Particle.class, "Custom Particles")
 			.inheritance(Recipe.class, "Custom Recipe Types")
 			.inheritance(Screen.class, "Custom GUI Screens")
-			.hasFile("assets/*/blockstates/*.json", "Custom Blocks")
-			.hasFile("assets/*/lang/*.json", "Localization")
-			.hasFile("assets/*/models/block/*", "Custom Block Models")
-			.hasFile("assets/*/models/item/*", "Custom Item Models")
-			.hasFile("assets/*/textures/block/*.png", "Custom Block Textures")
-			.hasFile("assets/*/textures/item/*.png", "Custom Item Textures")
-			.hasFile("assets/*/textures/gui/*.png", "Custom GUI Textures")
-			.hasFile("data/*/advancement/**/*.json", "Custom Advancements")
-			.hasFile("data/*/tags/**/*.json", "Custom Tag Assignments")
-			.hasFile("data/*/loot_modifiers/*.json", "Uses Loot Modifiers")
-			.hasFile("data/*/loot_table/**/*.json", "Custom Loot Tables")
-			.hasFile("data/*/recipe/**/*.json", "Custom Recipes")
-			.hasFile("data/*/structure/**/*.nbt", "Custom Structures")
-			.hasFile("data/*/worldgen/**/*.json", "Custom World Generation")
-			.hasFile("data/*/dimension_type/*.json", "Custom Dimension Types")
-			.hasFile("data/*/dimension/*.json", "Custom Dimensions")
-			.hasFile("data/*/function/*.mcfunction", "Uses Minecraft Functions")
-			.hasFile("assets/*/patchouli_books/**/*.json", "Patchouli Guide Book")
+			.hasFile("assets.blockstates", "assets/*/blockstates/*.json", "Custom Blocks")
+			.hasFile("assets.localization", "assets/*/lang/*.json", "Localization")
+			.hasFile("assets.models.block", "assets/*/models/block/*", "Custom Block Models")
+			.hasFile("assets.models.item", "assets/*/models/item/*", "Custom Item Models")
+			.hasFile("assets.textures.block", "assets/*/textures/block/*.png", "Custom Block Textures")
+			.hasFile("assets.textures.item", "assets/*/textures/item/*.png", "Custom Item Textures")
+			.hasFile("assets.textures.gui", "assets/*/textures/gui/*.png", "Custom GUI Textures")
+			.hasFile("data.advancements", "data/*/advancement/**/*.json", "Custom Advancements")
+			.hasFile("data.tag_assignments", "data/*/tags/**/*.json", "Custom Tag Assignments")
+			.hasFile("data.loot_modifiers", "data/*/loot_modifiers/*.json", "Uses Loot Modifiers")
+			.hasFile("data.loot_tables", "data/*/loot_table/**/*.json", "Custom Loot Tables")
+			.hasFile("data.recipes", "data/*/recipe/**/*.json", "Custom Recipes")
+			.hasFile("data.structures", "data/*/structure/**/*.nbt", "Custom Structures")
+			.hasFile("data.worldgen", "data/*/worldgen/**/*.json", "Custom World Generation")
+			.hasFile("data.dimension_types", "data/*/dimension_type/*.json", "Custom Dimension Types")
+			.hasFile("data.dimensions", "data/*/dimension/*.json", "Custom Dimensions")
+			.hasFile("data.mcfunctions", "data/*/function/*.mcfunction", "Uses Minecraft Functions")
+			.hasFile("assets.patchouli", "assets/*/patchouli_books/**/*.json", "Patchouli Guide Book")
 
 			.build();
 
@@ -235,7 +235,7 @@ public class DefaultDescriptions implements DataProvider {
 
 			.annotation(GameTest.class, StringyElementType.METHOD, "Automatic Testing", "template")
 
-			.hasFile("META-INF/accesstransformer.cfg", "Uses Access Transformers")
+			.hasFile("meta.accesstransformers", "META-INF/accesstransformer.cfg", "Uses Access Transformers")
 
 			.build();
 	}

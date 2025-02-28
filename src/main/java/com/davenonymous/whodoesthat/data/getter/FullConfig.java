@@ -128,7 +128,7 @@ public final class FullConfig {
 		List<GlobDescription> globs = new ArrayList<>();
 		if(config.containsKey("files")) {
 			for(LinkedHashMap<String, String> raw : (List<LinkedHashMap<String, String>>) config.get("files")) {
-				globs.add(new GlobDescription(raw.get("glob"), raw.get("description")));
+				globs.add(new GlobDescription(raw.get("id"), raw.get("glob"), raw.get("description")));
 			}
 		}
 

@@ -40,8 +40,8 @@ public class FullConfigBuilder {
 		return this;
 	}
 
-	public FullConfigBuilder hasFile(String glob, String description) {
-		globs.add(new GlobDescription(glob, description));
+	public FullConfigBuilder hasFile(String id, String glob, String description) {
+		globs.add(new GlobDescription(id, glob, description));
 		return this;
 	}
 

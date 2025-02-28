@@ -186,7 +186,8 @@ events:
     description: Listens to Tag Updates
 
 files:
-  - glob: "META-INF/accesstransformer.cfg"
+  - id: meta.accesstransformers
+    glob: "META-INF/accesstransformer.cfg"
     description: Uses Access Transformers
 
 inheritance:
