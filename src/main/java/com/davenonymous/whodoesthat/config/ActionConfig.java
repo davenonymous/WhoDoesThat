@@ -12,11 +12,14 @@ public class ActionConfig {
 	public static HashSet<String> modBlacklist;
 	public static String csvDelimiter;
 	public static boolean csvAlwaysQuote;
+	public static boolean includeFilesInFullReport;
 
 	public final ModConfigSpec.BooleanValue GENERATE_ASYNCHRONOUSLY;
 	public final ModConfigSpec.BooleanValue GENERATE_ON_STARTUP;
 	public final ModConfigSpec.BooleanValue FORCE_GENERATE_ON_STARTUP;
 	public final ModConfigSpec.ConfigValue<List<? extends String>> MOD_BLACKLIST;
+
+	public final ModConfigSpec.BooleanValue INCLUDE_FILES_IN_FULL_REPORT;
 
 	public final ModConfigSpec.ConfigValue<String> CSV_DELIMITER;
 	public final ModConfigSpec.BooleanValue CSV_ALWAYS_QUOTE;
@@ -55,6 +58,11 @@ public class ActionConfig {
 			.translation("whodoesthat.configuration.csv_always_quote")
 			.define("csvAlwaysQuote", false);
 
+		INCLUDE_FILES_IN_FULL_REPORT = builder
+			.comment("Include globbed files in the full report")
+			.translation("whodoesthat.configuration.include_files_in_full_report")
+			.define("includeFilesInFullReport", false);
+
 		builder.pop();
 	}
 
@@ -65,5 +73,6 @@ public class ActionConfig {
 		modBlacklist = new HashSet<>(MOD_BLACKLIST.get());
 		csvDelimiter = CSV_DELIMITER.get();
 		csvAlwaysQuote = CSV_ALWAYS_QUOTE.get();
+		includeFilesInFullReport = INCLUDE_FILES_IN_FULL_REPORT.get();
 	}
 }

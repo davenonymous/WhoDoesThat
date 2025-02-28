@@ -1,5 +1,6 @@
 package com.davenonymous.whodoesthat.data;
 
+import com.davenonymous.whodoesthat.config.ActionConfig;
 import com.davenonymous.whodoesthat.config.DescriptionConfig;
 import com.davenonymous.whodoesthat.data.getter.AnnotationDescription;
 import com.davenonymous.whodoesthat.data.getter.GlobDescription;
@@ -104,7 +105,9 @@ public class ModAnalyzer {
 				continue;
 			}
 
-			globbedFiles.put(getter.description(), modifiedFiles);
+			if(ActionConfig.includeFilesInFullReport) {
+				globbedFiles.put(getter.description(), modifiedFiles);
+			}
 			summary.add(getter.description());
 		}
 
