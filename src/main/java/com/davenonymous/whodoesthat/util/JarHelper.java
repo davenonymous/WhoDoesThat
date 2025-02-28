@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 public class JarHelper {
 	public static void extractDefaultConfigs() throws IOException {
@@ -30,7 +31,7 @@ public class JarHelper {
 				return;
 			}
 
-			Files.copy(is, path);
+			Files.copy(is, path, StandardCopyOption.REPLACE_EXISTING);
 		} catch (Exception e) {
 			WhoDoesThat.LOGGER.error("Failed to extract resource \"{}\": {}", resource, e.getMessage());
 		}

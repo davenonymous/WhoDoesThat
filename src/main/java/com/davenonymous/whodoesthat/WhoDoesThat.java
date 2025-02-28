@@ -128,7 +128,6 @@ public class WhoDoesThat {
 		}
 
 		if(shouldGenerate) {
-			// AllModsAnalyzer.generateModInfoFilesLogged();
 			AllModsAnalyzer.generateModInfoFilesAsync();
 		}
 	}
