@@ -1,5 +1,6 @@
 package com.davenonymous.whodoesthat.data.result;
 
+import com.davenonymous.whodoesthat.config.ActionConfig;
 import com.davenonymous.whodoesthat.util.GsonHelper;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
@@ -74,23 +75,34 @@ public record FullAnalysisResult(Map<String, ModAnalysisResult> modAnalysisResul
 		return Optional.of(yaml.toString());
 	}
 
+	private String quote(String value) {
+		boolean alwaysQuote = ActionConfig.csvAlwaysQuote;
+		String delimiter = ActionConfig.csvDelimiter;
+
+		if(alwaysQuote || value.contains(delimiter) || value.contains("\"") || value.contains("\n")) {
+			return "\"" + value.replaceAll("\"", "\"\"") + "\"";
+		} else {
+			return value;
+		}
+	}
+
 	public Optional<String> csvTable() {
 		List<String> columns = getSummaryColumns();
+		String delimiter = ActionConfig.csvDelimiter;
 
 		StringBuilder csv = new StringBuilder();
-		csv.append("\"Mod\";");
-		csv.append(String.join(";", columns.stream().map(s -> "\"" + s + "\"").toList()));
+		csv.append(quote("Mod"));
+		csv.append(delimiter);
+		csv.append(String.join(delimiter, columns.stream().map(this::quote).toList()));
 		csv.append("\n");
 
 		forEachMod((modId, modAnalysisResult) -> {
-			csv.append("\"");
-			csv.append(modId);
-			csv.append("\"");
-			csv.append(";");
+			csv.append(quote(modId));
+			csv.append(delimiter);
 			Set<String> modSummary = new HashSet<>(modAnalysisResult.summary().orElseGet(Collections::emptyList));
 			columns.forEach(column -> {
-				csv.append(modSummary.contains(column) ? "\"X\"" : "\"\"");
-				csv.append(";");
+				csv.append(quote(modSummary.contains(column) ? "X" : ""));
+				csv.append(delimiter);
 			});
 			csv.deleteCharAt(csv.length() - 1);
 			csv.append("\n");

@@ -49,6 +49,7 @@ public class ModAnalyzer {
 		Map<String, List<AnnotationResultEntry>> annotations = new HashMap<>();
 		Set<String> summary = new HashSet<>();
 		Set<String> modifiedClasses = new HashSet<>();
+		Map<String, List<String>> globbedFiles = new HashMap<>();
 
 		// TOOD: Attach more data to summary entries, e.g. their source (java, datapack) and a category
 
@@ -94,13 +95,16 @@ public class ModAnalyzer {
 			}
 		});
 
+		// TODO: Performance!
 		for(GlobDescription getter : DescriptionConfig.get().globs()) {
 			Predicate<String> matcher = DescriptionConfig.get().getCompiledGlob(getter).asMatchPredicate();
-			boolean matchingFiles = this.extraFiles.stream().anyMatch(path -> matcher.test(path.toString()));
-			if(!matchingFiles) {
+
+			List<String> modifiedFiles = this.extraFiles.stream().map(Path::toString).filter(matcher).toList();
+			if(modifiedFiles.isEmpty()) {
 				continue;
 			}
 
+			globbedFiles.put(getter.description(), modifiedFiles);
 			summary.add(getter.description());
 		}
 
@@ -139,6 +143,7 @@ public class ModAnalyzer {
 			OptionalHelper.optionalOfMap(events),
 			OptionalHelper.optionalOfMap(inheritance),
 			OptionalHelper.optionalOfMap(annotations),
+			OptionalHelper.optionalOfMap(globbedFiles),
 			OptionalHelper.optionalOfCollection(sortedSummary),
 			OptionalHelper.optionalOfCollection(sortedModifiedClasses),
 			modInfo,

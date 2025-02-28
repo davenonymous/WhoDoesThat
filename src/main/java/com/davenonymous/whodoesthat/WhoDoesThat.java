@@ -61,7 +61,11 @@ public class WhoDoesThat {
 							return;
 						}
 						if(ActionConfig.generateOnConfigChange) {
-							ModAnalyzer.generateModInfoFilesLogged();
+							if(ActionConfig.generateAsynchronously) {
+								AllModsAnalyzer.generateModInfoFilesAsync();
+							} else {
+								AllModsAnalyzer.generateModInfoFilesLogged();
+							}
 						}
 					}
 				);
@@ -129,7 +133,7 @@ public class WhoDoesThat {
 		}
 
 		boolean shouldGenerate = true;
-		if(Files.exists(PathConfig.outputFileJson)) {
+		if(!ActionConfig.forceGenerateOnStartup && Files.exists(PathConfig.outputFileJson)) {
 			shouldGenerate = false;
 			try {
 				FileTime modified = Files.getLastModifiedTime(PathConfig.outputFileJson);

@@ -6,17 +6,30 @@ import java.util.HashSet;
 import java.util.List;
 
 public class ActionConfig {
+	public static boolean generateAsynchronously;
 	public static boolean generateOnConfigChange;
 	public static boolean generateOnStartup;
+	public static boolean forceGenerateOnStartup;
 	public static HashSet<String> modBlacklist;
+	public static String csvDelimiter;
+	public static boolean csvAlwaysQuote;
 
+	public final ModConfigSpec.BooleanValue GENERATE_ASYNCHRONOUSLY;
 	public final ModConfigSpec.BooleanValue GENERATE_ON_CONFIG_CHANGE;
 	public final ModConfigSpec.BooleanValue GENERATE_ON_STARTUP;
+	public final ModConfigSpec.BooleanValue FORCE_GENERATE_ON_STARTUP;
 	public final ModConfigSpec.ConfigValue<List<? extends String>> MOD_BLACKLIST;
 
+	public final ModConfigSpec.ConfigValue<String> CSV_DELIMITER;
+	public final ModConfigSpec.BooleanValue CSV_ALWAYS_QUOTE;
 
 	public ActionConfig(ModConfigSpec.Builder builder) {
 		builder.push("actions");
+
+		GENERATE_ASYNCHRONOUSLY = builder
+			.comment("Generate mod reports asynchronously")
+			.translation("whodoesthat.configuration.generate_asynchronously")
+			.define("generateAsynchronously", true);
 
 		GENERATE_ON_CONFIG_CHANGE = builder
 			.comment("Generate mod analysis when the config changes")
@@ -28,18 +41,37 @@ public class ActionConfig {
 			.translation("whodoesthat.configuration.generate_on_startup")
 			.define("generateOnStartup", true);
 
+		FORCE_GENERATE_ON_STARTUP = builder
+			.comment("Generate mod analysis when the game starts")
+			.translation("whodoesthat.configuration.force_generate_on_startup")
+			.define("forceGenerationOnStartup", false);
+
 		MOD_BLACKLIST = builder
 			.comment("Mods to exclude from analysis")
 			.translation("whodoesthat.configuration.mod_blacklist")
 			.<String>defineListAllowEmpty(
 				"modBlacklist", List.of("minecraft", "neoforge"), String::new, p -> p instanceof String);
 
+		CSV_DELIMITER = builder
+			.comment("Delimiter to use in CSV output")
+			.translation("whodoesthat.configuration.csv_delimiter")
+			.define("csvDelimiter", ",");
+
+		CSV_ALWAYS_QUOTE = builder
+			.comment("Always quote CSV fields")
+			.translation("whodoesthat.configuration.csv_always_quote")
+			.define("csvAlwaysQuote", false);
+
 		builder.pop();
 	}
 
 	public void load() {
+		generateAsynchronously = GENERATE_ASYNCHRONOUSLY.get();
 		generateOnConfigChange = GENERATE_ON_CONFIG_CHANGE.get();
 		generateOnStartup = GENERATE_ON_STARTUP.get();
+		forceGenerateOnStartup = FORCE_GENERATE_ON_STARTUP.get();
 		modBlacklist = new HashSet<>(MOD_BLACKLIST.get());
+		csvDelimiter = CSV_DELIMITER.get();
+		csvAlwaysQuote = CSV_ALWAYS_QUOTE.get();
 	}
 }
