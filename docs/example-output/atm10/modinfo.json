@@ -10866,7 +10866,7 @@
         "description": "Bonsai is the Japanese art of growing and shaping miniature trees in containers.",
         "displayName": "Bonsai Trees 4",
         "file": "bonsaitrees4-1.0.0.jar",
-        "license": "MIT",
+        "license": "All Rights Reserved",
         "package": "com.davenonymous.bonsaitrees",
         "version": "1.0.0"
       },
@@ -20723,14 +20723,14 @@
     "fabric_api_base": {
       "dependencies": {
         "minecraft": "[1.21.1,1.22)",
-        "neoforge": "[21.1.57,)"
+        "neoforge": "[21.1.6,)"
       },
       "info": {
         "authors": "Sinytra, FabricMC",
         "classes": "17",
         "description": "Contains the essentials for Fabric API modules.",
         "displayName": "Forgified Fabric API Base",
-        "file": "iris-neoforge-1.8.1+mc1.21.1.jar",
+        "file": "sodium-neoforge-0.6.5+mc1.21.1.jar",
         "jarInJar": "fabric-api-base-0.4.42+d1308ded19.jar",
         "license": "Apache-2.0",
         "package": "net.fabricmc.fabric.api.util",
@@ -20779,14 +20779,14 @@
       },
       "dependencies": {
         "minecraft": "[1.21.1,1.22)",
-        "neoforge": "[21.1.57,)"
+        "neoforge": "[21.1.6,)"
       },
       "info": {
         "authors": "Sinytra, FabricMC",
         "classes": "12",
         "description": "Hooks for block views",
         "displayName": "Forgified Fabric BlockView API (v2)",
-        "file": "iris-neoforge-1.8.1+mc1.21.1.jar",
+        "file": "sodium-neoforge-0.6.5+mc1.21.1.jar",
         "jarInJar": "fabric-block-view-api-v2-1.0.10+9afaaf8c19.jar",
         "license": "Apache-2.0",
         "package": "net.fabricmc.fabric.mixin.blockview",
@@ -20874,7 +20874,7 @@
         "classes": "35",
         "description": "Defines rendering extensions for dynamic/fancy block and item models.",
         "displayName": "Forgified Fabric Renderer API (v1)",
-        "file": "iris-neoforge-1.8.1+mc1.21.1.jar",
+        "file": "sodium-neoforge-0.6.5+mc1.21.1.jar",
         "jarInJar": "fabric-renderer-api-v1-3.4.0+acb05a3919.jar",
         "license": "Apache-2.0",
         "package": "net.fabricmc.fabric.impl.renderer",
@@ -20901,14 +20901,14 @@
       "dependencies": {
         "fabric_block_view_api_v2": "*",
         "minecraft": "[1.21.1,1.22)",
-        "neoforge": "[21.1.57,)"
+        "neoforge": "[21.1.6,)"
       },
       "info": {
         "authors": "Sinytra, FabricMC",
         "classes": "8",
         "description": "Thread-safe hooks for block entity data use during terrain rendering.",
         "displayName": "Forgified Fabric Rendering Data Attachment (v1)",
-        "file": "iris-neoforge-1.8.1+mc1.21.1.jar",
+        "file": "sodium-neoforge-0.6.5+mc1.21.1.jar",
         "jarInJar": "fabric-rendering-data-attachment-v1-0.3.48+73761d2e19.jar",
         "license": "Apache-2.0",
         "package": "net.fabricmc.fabric.mixin.rendering.data",
@@ -68953,7 +68953,7 @@
     },
     "whodoesthat": {
       "dependencies": {
-        "minecraft": "[1.20.1,)",
+        "minecraft": "[1.21.1,)",
         "neoforge": "[20,)"
       },
       "events": {
@@ -68971,11 +68971,14 @@
         ],
         "net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent": [
           "com.davenonymous.whodoesthat.setup.ModTooltipComponents#onTooltipRegister"
+        ],
+        "net.neoforged.neoforge.data.event.GatherDataEvent": [
+          "com.davenonymous.whodoesthat.datagen.DGHandler#gatherData"
         ]
       },
       "info": {
         "authors": "Davenonymous",
-        "classes": "128",
+        "classes": "133",
         "description": "Find which mods are touching which parts of Minecraft",
         "displayName": "WhoDoesThat",
         "file": "whodoesthat-1.0.0.jar",
@@ -68995,6 +68998,9 @@
           "com.davenonymous.whodoesthat.lib.gui.WidgetScreen",
           "com.davenonymous.whodoesthat.lib.gui.WidgetContainerScreen",
           "com.davenonymous.whodoesthat.gui.ModOverviewScreen"
+        ],
+        "net.minecraft.data.DataProvider": [
+          "com.davenonymous.whodoesthat.datagen.DefaultDescriptions"
         ]
       },
       "summary": [
@@ -69004,7 +69010,8 @@
         "Custom GUI Textures",
         "Custom Tooltip Components",
         "Has Commands",
-        "Localization"
+        "Localization",
+        "Uses Data Generators"
       ]
     },
     "wirelesschargers": {
