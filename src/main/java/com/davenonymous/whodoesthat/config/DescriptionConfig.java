@@ -2,6 +2,7 @@ package com.davenonymous.whodoesthat.config;
 
 import com.davenonymous.whodoesthat.WhoDoesThat;
 import com.davenonymous.whodoesthat.data.getter.FullConfig;
+import com.davenonymous.whodoesthat.util.JarHelper;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -22,17 +23,14 @@ public class DescriptionConfig {
 	}
 
 	private DescriptionConfig() {
-		// Create the config directory if it doesn't exist
 		var loaderOptions = new LoaderOptions();
 		loaderOptions.setMergeOnCompose(true);
+
 		yaml = new Yaml(loaderOptions);
 		try {
-			if(!Files.exists(PathConfig.configPath)) {
-				Files.createDirectories(PathConfig.configPath);
-			}
-			DefaultDescriptions.writeDefaultConfigs();
+			JarHelper.extractDefaultConfigs();
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			WhoDoesThat.LOGGER.error("Failed to extract default configs: {}", e.getMessage());
 		}
 
 		load();

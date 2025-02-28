@@ -1,8 +1,10 @@
-package com.davenonymous.whodoesthat.config;
+package com.davenonymous.whodoesthat.datagen;
 
 import com.davenonymous.whodoesthat.data.FullConfigBuilder;
 import com.davenonymous.whodoesthat.data.StringyElementType;
 import com.davenonymous.whodoesthat.data.getter.FullConfig;
+import com.google.common.hash.Hashing;
+import com.google.common.hash.HashingOutputStream;
 import com.mojang.brigadier.Command;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.particle.Particle;
@@ -10,7 +12,9 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
+import net.minecraft.data.PackOutput;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
@@ -50,12 +54,17 @@ import net.neoforged.neoforge.registries.datamaps.DataMapsUpdatedEvent;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 import org.spongepowered.asm.mixin.injection.Inject;
 
-public class DefaultDescriptions {
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.util.concurrent.CompletableFuture;
+
+public class DefaultDescriptions implements DataProvider {
 	public static final FullConfig CUSTOM_CONTENT;
 	public static final FullConfig SYSTEMS;
 	public static final FullConfig MODIFICATIONS;
-
-	public static boolean WRITING_DEFAULTS = false;
 
 	static {
 		CUSTOM_CONTENT = new FullConfigBuilder()
@@ -231,15 +240,40 @@ public class DefaultDescriptions {
 			.build();
 	}
 
-	public static void writeDefaultConfigs() {
-		var customContentPath = PathConfig.configPath.resolve("custom_content.yaml");
-		var systemsPath = PathConfig.configPath.resolve("systems.yaml");
-		var modificationsPath = PathConfig.configPath.resolve("modifications.yaml");
+	private final PackOutput output;
 
-		WRITING_DEFAULTS = true;
-		CUSTOM_CONTENT.writeYaml(customContentPath);
-		SYSTEMS.writeYaml(systemsPath);
-		MODIFICATIONS.writeYaml(modificationsPath);
-		WRITING_DEFAULTS = false;
+	public DefaultDescriptions(PackOutput output) {
+		this.output = output;
+	}
+
+	@Override
+	public CompletableFuture<?> run(CachedOutput output) {
+		Path base = this.output.getOutputFolder().resolve("default_configs");
+		return CompletableFuture.allOf(
+			run(output, base.resolve("custom_content.yaml"), CUSTOM_CONTENT),
+			run(output, base.resolve("systems.yaml"), SYSTEMS),
+			run(output, base.resolve("modifications.yaml"), MODIFICATIONS)
+		);
+	}
+
+	public CompletableFuture<?> run(CachedOutput output, Path dst, FullConfig config) {
+		return CompletableFuture.runAsync(() -> {
+			try {
+				ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+				HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha1(), bytearrayoutputstream);
+				OutputStreamWriter writer = new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8);
+				writer.write(config.asYaml());
+				writer.close();
+
+				output.writeIfNeeded(dst, bytearrayoutputstream.toByteArray(), hashingoutputstream.hash());
+			} catch (IOException ioexception) {
+				LOGGER.error("Failed to save file to {}", dst, ioexception);
+			}
+		});
+	}
+
+	@Override
+	public String getName() {
+		return "WhoDoesThat Default Configs";
 	}
 }

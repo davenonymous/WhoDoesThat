@@ -1,0 +1,88 @@
+events:
+  - id: net.neoforged.neoforge.event.AnvilUpdateEvent
+    description: Custom Anvil Recipes
+  - id: net.neoforged.neoforge.registries.DataPackRegistryEvent$NewRegistry
+    description: Custom Registries
+  - id: net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
+    description: Custom Entity Attributes
+  - id: net.neoforged.neoforge.client.event.EntityRenderersEvent$RegisterRenderers
+    description: Custom Entity Renderers
+  - id: net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent
+    description: Custom Brewing Recipes
+  - id: net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent
+    description: Custom Tooltip Components
+  - id: net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent
+    description: Custom Data Map Types
+  - id: net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent
+    description: Custom Key Mappings
+  - id: net.neoforged.neoforge.client.event.RegisterShadersEvent
+    description: Custom Shaders
+
+files:
+  - glob: "assets/*/blockstates/*.json"
+    description: Custom Blocks
+  - glob: "assets/*/lang/*.json"
+    description: Localization
+  - glob: "assets/*/models/block/*"
+    description: Custom Block Models
+  - glob: "assets/*/models/item/*"
+    description: Custom Item Models
+  - glob: "assets/*/textures/block/*.png"
+    description: Custom Block Textures
+  - glob: "assets/*/textures/item/*.png"
+    description: Custom Item Textures
+  - glob: "assets/*/textures/gui/*.png"
+    description: Custom GUI Textures
+  - glob: "data/*/advancement/**/*.json"
+    description: Custom Advancements
+  - glob: "data/*/tags/**/*.json"
+    description: Custom Tag Assignments
+  - glob: "data/*/loot_modifiers/*.json"
+    description: Uses Loot Modifiers
+  - glob: "data/*/loot_table/**/*.json"
+    description: Custom Loot Tables
+  - glob: "data/*/recipe/**/*.json"
+    description: Custom Recipes
+  - glob: "data/*/structure/**/*.nbt"
+    description: Custom Structures
+  - glob: "data/*/worldgen/**/*.json"
+    description: Custom World Generation
+  - glob: "data/*/dimension_type/*.json"
+    description: Custom Dimension Types
+  - glob: "data/*/dimension/*.json"
+    description: Custom Dimensions
+  - glob: "data/*/function/*.mcfunction"
+    description: Uses Minecraft Functions
+  - glob: "assets/*/patchouli_books/**/*.json"
+    description: Patchouli Guide Book
+
+inheritance:
+  - id: net.minecraft.world.entity.animal.Animal
+    description: Custom Animals
+  - id: net.minecraft.client.resources.model.BakedModel
+    description: Custom 3D Models
+  - id: net.minecraft.world.level.block.Block
+    description: Custom Blocks
+  - id: net.minecraft.client.renderer.blockentity.BlockEntityRenderer
+    description: Custom Block Renderer
+  - id: net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer
+    description: Custom Item Renderer
+  - id: net.minecraft.world.item.enchantment.Enchantment
+    description: Custom Enchantments
+  - id: net.minecraft.world.entity.Entity
+    description: Custom Entities
+  - id: net.neoforged.neoforge.client.model.geometry.IGeometryLoader
+    description: Custom Model Loaders
+  - id: net.minecraft.world.item.Item
+    description: Custom Items
+  - id: net.minecraft.world.entity.Mob
+    description: Custom Mobs
+  - id: net.minecraft.world.effect.MobEffect
+    description: Custom Potion Effects
+  - id: net.minecraft.client.particle.Particle
+    description: Custom Particles
+  - id: net.minecraft.world.item.crafting.Recipe
+    description: Custom Recipe Types
+  - id: net.minecraft.client.gui.screens.Screen
+    description: Custom GUI Screens
+
