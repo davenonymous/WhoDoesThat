@@ -38,7 +38,7 @@ public class ActionConfig {
 			.define("generateOnStartup", true);
 
 		FORCE_GENERATE_ON_STARTUP = builder
-			.comment("Generate mod analysis when the game starts")
+			.comment("Generate mod analysis when the game starts, even if no newer mods are detected")
 			.translation("whodoesthat.configuration.force_generate_on_startup")
 			.define("forceGenerationOnStartup", false);
 

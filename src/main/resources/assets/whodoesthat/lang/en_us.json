@@ -1,17 +1,25 @@
 {
 	"whodoesthat.configuration.config_folder": "Config Folder",
-	"whodoesthat.configuration.generate_on_config_change": "Generate on Config Change",
+	"whodoesthat.configuration.generate_asynchronously": "Generate asynchronously",
 	"whodoesthat.configuration.generate_on_startup": "Generate on Startup",
+	"whodoesthat.configuration.force_generate_on_startup": "Ignore last generation date",
+	"whodoesthat.configuration.include_files_in_full_report": "Include Files in Full Report",
 	"whodoesthat.configuration.json_target": "JSON Destination",
 	"whodoesthat.configuration.yaml_target": "YAML Destination",
 	"whodoesthat.configuration.csv_target": "CSV Destination",
+	"whodoesthat.configuration.csv_delimiter": "CSV Delimiter",
+	"whodoesthat.configuration.csv_always_quote": "Always Quote CSV Values",
 
 	"whodoesthat.configuration.config_folder.tooltip": "Where to look for the descriptor configs",
-	"whodoesthat.configuration.generate_on_config_change.tooltip": "If enabled the data will be generated every time one of the descriptor configs is changed",
+	"whodoesthat.configuration.generate_asynchronously.tooltip": "If enabled the reports will be generated in a separate thread",
 	"whodoesthat.configuration.generate_on_startup.tooltip": "If enabled and there are newer mods than the last generation, the data will be generated on startup",
+	"whodoesthat.configuration.force_generate_on_startup.tooltip": "If enabled the data will be generated on startup, even if there are no new mods since the last generation",
+	"whodoesthat.configuration.include_files_in_full_report.tooltip": "If enabled the full report will include the files of the mods. This can be useful for debugging, but the report might get extremely large.",
 	"whodoesthat.configuration.json_target.tooltip": "In which file to store the full data as JSON",
 	"whodoesthat.configuration.yaml_target.tooltip": "In which file to store the minified data as YAML",
 	"whodoesthat.configuration.csv_target.tooltip": "In which file to store a summary table as CSV",
+	"whodoesthat.configuration.csv_delimiter.tooltip": "The character to use as delimiter in the CSV file",
+	"whodoesthat.configuration.csv_always_quote.tooltip": "If enabled all values in the CSV will be quoted. This can be useful if you want to import the CSV into Excel or similar tools.",
 
 	"whodoesthat.configuration.generate_now": "Run analysis now",
 	"whodoesthat.configuration.generate_now.button": "Do it!",
@@ -26,7 +34,7 @@
 	"whodoesthat.configuration.show.tooltip": "Opens the screen with the last analysis results",
 
 	"whodoesthat.configuration.paths": "Paths",
-	"whodoesthat.configuration.actions": "Auto-Generation",
+	"whodoesthat.configuration.actions": "Reports",
 
 	"whodoesthat.configuration.paths.tooltip": "Configure where the results files are stored",
 	"whodoesthat.configuration.actions.tooltip": "Configure when the analysis is run automatically",
