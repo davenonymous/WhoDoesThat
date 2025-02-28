@@ -1,7 +1,7 @@
 package com.davenonymous.whodoesthat.gui;
 
 import com.davenonymous.whodoesthat.WhoDoesThat;
-import com.davenonymous.whodoesthat.data.ModAnalyzer;
+import com.davenonymous.whodoesthat.data.AllModsAnalyzer;
 import com.davenonymous.whodoesthat.data.result.ModAnalysisResult;
 import com.davenonymous.whodoesthat.lib.gui.GUI;
 import com.davenonymous.whodoesthat.lib.gui.WidgetScreen;
@@ -168,7 +168,7 @@ public class ModOverviewScreen extends WidgetScreen {
 	@Override
 	protected GUI createGUI() {
 		if(WhoDoesThat.LAST_ANALYSIS == null) {
-			ModAnalyzer.generateModInfoFilesLogged();
+			AllModsAnalyzer.generateModInfoFilesLogged();
 		}
 
 		GUI gui = new GUI(0, 0, this.width, this.height);

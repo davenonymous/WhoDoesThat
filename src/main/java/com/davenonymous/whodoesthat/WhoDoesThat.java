@@ -1,7 +1,7 @@
 package com.davenonymous.whodoesthat;
 
 import com.davenonymous.whodoesthat.config.*;
-import com.davenonymous.whodoesthat.data.ModAnalyzer;
+import com.davenonymous.whodoesthat.data.AllModsAnalyzer;
 import com.davenonymous.whodoesthat.data.result.FullAnalysisResult;
 import com.davenonymous.whodoesthat.gui.ModOverviewScreen;
 import com.electronwill.nightconfig.core.file.FileWatcher;
@@ -81,7 +81,7 @@ public class WhoDoesThat {
 								button -> {
 									int modCount = ModList.get().getMods().size();
 									final long startTime = System.nanoTime();
-									Optional<String> error = ModAnalyzer.generateModInfoFilesLogged();
+									Optional<String> error = AllModsAnalyzer.generateModInfoFilesLogged();
 									final long endTime = System.nanoTime();
 									final long duration = (endTime - startTime) / 1000000;
 
@@ -145,7 +145,8 @@ public class WhoDoesThat {
 		}
 
 		if(shouldGenerate) {
-			ModAnalyzer.generateModInfoFilesLogged();
+			// AllModsAnalyzer.generateModInfoFilesLogged();
+			AllModsAnalyzer.generateModInfoFilesAsync();
 		}
 	}
 }

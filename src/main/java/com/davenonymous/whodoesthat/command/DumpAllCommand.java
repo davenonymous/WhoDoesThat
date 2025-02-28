@@ -1,7 +1,8 @@
 package com.davenonymous.whodoesthat.command;
 
+import com.davenonymous.whodoesthat.config.ActionConfig;
 import com.davenonymous.whodoesthat.config.PathConfig;
-import com.davenonymous.whodoesthat.data.ModAnalyzer;
+import com.davenonymous.whodoesthat.data.AllModsAnalyzer;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
@@ -17,6 +18,7 @@ import net.minecraft.network.chat.MutableComponent;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Optional;
 
 public class DumpAllCommand implements Command<CommandSourceStack> {
 	private static final DumpAllCommand INSTANCE = new DumpAllCommand();
@@ -36,12 +38,10 @@ public class DumpAllCommand implements Command<CommandSourceStack> {
 		return fileComponent;
 	}
 
-	@Override
-	public int run(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		final long startTime = System.nanoTime();
-		var errors = ModAnalyzer.generateModInfoFilesLogged();
-		final long endTime = System.nanoTime();
-		final long duration = (endTime - startTime) / 1000000;
+	private void sendReply(CommandContext<CommandSourceStack> context, Optional<String> errors, long duration) {
+		if(context.getSource() == null) {
+			return;
+		}
 
 		if(errors.isEmpty()) {
 			var message = Component.literal("Analysis done! Took " + duration + "ms.")
@@ -53,12 +53,31 @@ public class DumpAllCommand implements Command<CommandSourceStack> {
 				.append(clickableFileComponent(PathConfig.outputFileCsv));
 
 			context.getSource().sendSuccess(() -> message, false);
-			return 0;
 		} else {
 			StringBuilder errorMessage = new StringBuilder("Errors occurred during analysis:\n");
 			errorMessage.append(errors.get());
 			context.getSource().sendFailure(Component.literal(errorMessage.toString()));
-			return 1;
 		}
+	}
+
+	@Override
+	public int run(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+		final long startTime = System.nanoTime();
+
+		if(ActionConfig.generateAsynchronously) {
+			var future = AllModsAnalyzer.generateModInfoFilesAsync();
+			future.thenAccept(asyncErrors -> {
+				final long endTime = System.nanoTime();
+				final long duration = (endTime - startTime) / 1000000;
+				sendReply(context, asyncErrors, duration);
+			});
+			return 0;
+		}
+
+		Optional<String> errors = AllModsAnalyzer.generateModInfoFilesLogged();
+		final long endTime = System.nanoTime();
+		final long duration = (endTime - startTime) / 1000000;
+		sendReply(context, errors, duration);
+		return 0;
 	}
 }
