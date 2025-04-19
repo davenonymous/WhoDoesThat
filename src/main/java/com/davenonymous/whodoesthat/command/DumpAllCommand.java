@@ -1,8 +1,6 @@
 package com.davenonymous.whodoesthat.command;
 
-import com.davenonymous.whodoesthat.config.ActionConfig;
 import com.davenonymous.whodoesthat.config.PathConfig;
-import com.davenonymous.whodoesthat.data.AllModsAnalyzer;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
@@ -45,12 +43,7 @@ public class DumpAllCommand implements Command<CommandSourceStack> {
 
 		if(errors.isEmpty()) {
 			var message = Component.literal("Analysis done! Took " + duration + "ms.")
-				.append(Component.literal("\n - Summary: "))
-				.append(clickableFileComponent(PathConfig.outputFileYaml))
-				.append(Component.literal("\n - Full: "))
-				.append(clickableFileComponent(PathConfig.outputFileJson))
-				.append(Component.literal("\n - Table: "))
-				.append(clickableFileComponent(PathConfig.outputFileCsv));
+				.append(clickableFileComponent(PathConfig.outputFileJson));
 
 			context.getSource().sendSuccess(() -> message, false);
 		} else {
@@ -64,17 +57,7 @@ public class DumpAllCommand implements Command<CommandSourceStack> {
 	public int run(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		final long startTime = System.nanoTime();
 
-		if(ActionConfig.generateAsynchronously) {
-			var future = AllModsAnalyzer.generateModInfoFilesAsync();
-			future.thenAccept(asyncErrors -> {
-				final long endTime = System.nanoTime();
-				final long duration = (endTime - startTime) / 1000000;
-				sendReply(context, asyncErrors, duration);
-			});
-			return 0;
-		}
-
-		Optional<String> errors = AllModsAnalyzer.generateModInfoFilesLogged();
+		Optional<String> errors = Optional.empty();
 		final long endTime = System.nanoTime();
 		final long duration = (endTime - startTime) / 1000000;
 		sendReply(context, errors, duration);

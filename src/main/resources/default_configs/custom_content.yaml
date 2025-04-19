@@ -1,0 +1,333 @@
+events:
+  - event: net.neoforged.neoforge.event.AnvilUpdateEvent
+    id: event.NewAnvilRecipes
+    category: custom_content
+    description: Custom Anvil Recipes
+    tags:
+      - addition
+      - crafting
+      - recipe
+  - event: net.neoforged.neoforge.registries.DataPackRegistryEvent$NewRegistry
+    id: event.NewDataPackRegistry
+    category: custom_content
+    description: Custom Registries
+    tags:
+      - addition
+      - registry
+  - event: net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
+    id: event.NewEntityAttributes
+    category: custom_content
+    description: Custom Entity Attributes
+    tags:
+      - addition
+      - entity
+      - attribute
+  - event: net.neoforged.neoforge.client.event.EntityRenderersEvent$RegisterRenderers
+    id: event.NewEntityRenderers
+    category: custom_content
+    description: Custom Entity Renderers
+    tags:
+      - addition
+      - entity
+      - rendering
+  - event: net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent
+    id: event.NewBrewingRecipes
+    category: custom_content
+    description: Custom Brewing Recipes
+    tags:
+      - addition
+      - crafting
+      - recipe
+  - event: net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent
+    id: event.NewTooltipComponents
+    category: custom_content
+    description: Custom Tooltip Components
+    tags:
+      - addition
+      - gui
+      - tooltip
+  - event: net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent
+    id: event.NewDataMapTypes
+    category: custom_content
+    description: Custom Data Map Types
+    tags:
+      - addition
+      - datamap
+  - event: net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent
+    id: event.NewKeyMappings
+    category: custom_content
+    description: Custom Key Mappings
+    tags:
+      - addition
+      - keymapping
+      - input
+  - event: net.neoforged.neoforge.client.event.RegisterShadersEvent
+    id: event.NewShaders
+    category: custom_content
+    description: Custom Shaders
+    tags:
+      - addition
+      - shader
+      - rendering
+
+files:
+  - id: assets.blockstates
+    glob: "assets/*/blockstates/**.json"
+    description: Custom Blocks
+    category: content_json
+    tags:
+      - addition
+      - block
+  - id: assets.localization
+    glob: "assets/*/lang/**.json"
+    description: Localization
+    category: content_json
+    tags:
+      - addition
+      - localization
+  - id: assets.models.block
+    glob: "assets/*/models/block/*"
+    description: Custom Block Models
+    category: content_json
+    tags:
+      - addition
+      - block
+      - model
+  - id: assets.models.item
+    glob: "assets/*/models/item/*"
+    description: Custom Item Models
+    category: content_json
+    tags:
+      - addition
+      - item
+      - model
+  - id: assets.textures.block
+    glob: "assets/*/textures/block/**.png"
+    description: Custom Block Textures
+    category: custom_textures
+    tags:
+      - addition
+      - block
+      - texture
+  - id: assets.textures.item
+    glob: "assets/*/textures/item/**.png"
+    description: Custom Item Textures
+    category: custom_textures
+    tags:
+      - addition
+      - item
+      - texture
+  - id: assets.textures.gui
+    glob: "assets/*/textures/gui/**.png"
+    description: Custom GUI Textures
+    category: custom_textures
+    tags:
+      - addition
+      - gui
+      - texture
+  - id: data.advancements
+    glob: "data/*/advancement/**.json"
+    description: Custom Advancements
+    category: content_json
+    tags:
+      - addition
+      - advancement
+  - id: data.tag_assignments
+    glob: "data/*/tags/**.json"
+    description: Custom Tag Assignments
+    category: content_json
+    tags:
+      - addition
+      - modification
+      - tag
+  - id: data.loot_modifiers
+    glob: "data/*/loot_modifiers/**.json"
+    description: Uses Loot Modifiers
+    category: content_json
+    tags:
+      - modification
+      - loot
+  - id: data.loot_tables
+    glob: "data/*/loot_table/**.json"
+    description: Custom Loot Tables
+    category: content_json
+    tags:
+      - addition
+      - loot
+  - id: data.recipes
+    glob: "data/*/recipe/**.json"
+    description: Custom Recipes
+    category: content_json
+    tags:
+      - addition
+      - recipe
+  - id: data.structures
+    glob: "data/*/structure/**.nbt"
+    description: Custom Structures
+    category: worldgen_json
+    tags:
+      - addition
+      - worldgen
+      - structure
+  - id: data.worldgen
+    glob: "data/*/worldgen/**.json"
+    description: Custom World Generation
+    category: worldgen_json
+    tags:
+      - addition
+      - worldgen
+  - id: data.dimension_types
+    glob: "data/*/dimension_type/**.json"
+    description: Custom Dimension Types
+    category: worldgen_json
+    tags:
+      - addition
+      - worldgen
+  - id: data.dimensions
+    glob: "data/*/dimension/**.json"
+    description: Custom Dimensions
+    category: worldgen_json
+    tags:
+      - addition
+      - worldgen
+  - id: data.mcfunctions
+    glob: "data/*/function/**.mcfunction"
+    description: Uses Minecraft Functions
+    category: mcfunctions
+    tags:
+      - addition
+      - meta_system
+  - id: assets.patchouli
+    glob: "assets/*/patchouli_books/**.json"
+    description: Patchouli Guide Book
+    category: mod_compatibility
+    tags:
+      - addition
+      - mod_plugin
+
+fields:
+  - id: java.BlockHolder
+    type: net.neoforged.neoforge.registries.DeferredBlock
+    description: Has Block References
+    category: meta_systems
+    tags:
+      - addition
+      - block
+      - registry
+  - id: java.BlockRegistry
+    type: net.neoforged.neoforge.registries.DeferredRegister$Blocks
+    description: Blocks in Registry
+    category: custom_content
+    tags:
+      - addition
+      - block
+      - registry
+
+inheritance:
+  - id: java.Animals
+    parent: net.minecraft.world.entity.animal.Animal
+    category: custom_content
+    description: Custom Animals
+    tags:
+      - addition
+      - entity
+      - animal
+  - id: java.Models
+    parent: net.minecraft.client.resources.model.BakedModel
+    category: custom_content
+    description: Custom 3D Models
+    tags:
+      - addition
+      - model
+  - id: java.Blocks
+    parent: net.minecraft.world.level.block.Block
+    category: custom_content
+    description: Custom Blocks
+    tags:
+      - addition
+      - block
+  - id: java.BlockRenderer
+    parent: net.minecraft.client.renderer.blockentity.BlockEntityRenderer
+    category: custom_content
+    description: Custom Block Renderer
+    tags:
+      - addition
+      - rendering
+      - block
+      - blockentity
+  - id: java.BlockAsItemRenderer
+    parent: net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer
+    category: custom_content
+    description: Custom Item Renderer
+    tags:
+      - addition
+      - rendering
+      - item
+      - blockentity
+  - id: java.Enchantments
+    parent: net.minecraft.world.item.enchantment.Enchantment
+    category: custom_content
+    description: Custom Enchantments
+    tags:
+      - addition
+      - enchantment
+  - id: java.Entities
+    parent: net.minecraft.world.entity.Entity
+    category: custom_content
+    description: Custom Entities
+    tags:
+      - addition
+      - entity
+  - id: java.ModelLoaders
+    parent: net.neoforged.neoforge.client.model.geometry.IGeometryLoader
+    category: custom_content
+    description: Custom Model Loaders
+    tags:
+      - addition
+      - model
+      - registry
+  - id: java.Items
+    parent: net.minecraft.world.item.Item
+    category: custom_content
+    description: Custom Items
+    tags:
+      - addition
+      - item
+  - id: java.Mobs
+    parent: net.minecraft.world.entity.Mob
+    category: custom_content
+    description: Custom Mobs
+    tags:
+      - addition
+      - entity
+      - mob
+  - id: java.PotionEffectTypes
+    parent: net.minecraft.world.effect.MobEffect
+    category: custom_content
+    description: Custom Potion Effects
+    tags:
+      - addition
+      - potion
+  - id: java.ParticleTypes
+    parent: net.minecraft.client.particle.Particle
+    category: custom_content
+    description: Custom Particles
+    tags:
+      - addition
+      - particle
+      - rendering
+  - id: java.RecipeTypes
+    parent: net.minecraft.world.item.crafting.Recipe
+    category: custom_content
+    description: Custom Recipe Types
+    tags:
+      - addition
+      - recipe
+  - id: java.Screens
+    parent: net.minecraft.client.gui.screens.Screen
+    category: custom_content
+    description: Custom GUI Screens
+    tags:
+      - addition
+      - gui
+      - screen

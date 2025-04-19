@@ -17,17 +17,22 @@ import net.minecraft.world.item.ItemStack;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class GUI extends WidgetPanel {
 	public static ResourceLocation tabIcons = WhoDoesThat.resource("textures/gui/tabicons.png");
 	public static ResourceLocation windowBackground = WhoDoesThat.resource("textures/gui/window.png");
 	public static ResourceLocation defaultButtonTexture = WhoDoesThat.resource("textures/gui/button_background.png");
+
 	public static final Logger LOGGER = LogUtils.getLogger();
 
 	public boolean hasTabs = false;
 	private final Map<ResourceLocation, IValueProvider> valueMap = new HashMap<>();
 	private WidgetContainer container;
+	private boolean isDragging = false;
+	private final Set<Integer> pressedKeys = new HashSet<>();
 
 	public GUI(int x, int y, int width, int height) {
 		this.setX(x);
@@ -35,6 +40,7 @@ public class GUI extends WidgetPanel {
 		this.setWidth(width);
 		this.setHeight(height);
 	}
+
 
 	public void findValueWidgets() {
 		this.findValueWidgets(this);
@@ -117,4 +123,41 @@ public class GUI extends WidgetPanel {
 	public WidgetContainer getContainer() {
 		return container;
 	}
+
+	public void setDragging(boolean dragging) {
+		this.isDragging = dragging;
+	}
+
+	public boolean isDragging() {
+		return isDragging;
+	}
+
+	public void keyDown(int scanCode) {
+		this.pressedKeys.add(scanCode);
+	}
+
+	public void keyUp(int scanCode) {
+		this.pressedKeys.remove(scanCode);
+	}
+
+	public boolean isKeyPressed(int scanCode) {
+		return this.pressedKeys.contains(scanCode);
+	}
+
+	private static final int SCAN_CODE_CTRL = 29;
+	private static final int SCAN_CODE_CTRL_LEFT = 157;
+	private static final int SCAN_CODE_CTRL_RIGHT = 197;
+
+	private static final int SCAN_CODE_SHIFT = 42;
+	private static final int SCAN_CODE_SHIFT_LEFT = 54;
+	private static final int SCAN_CODE_SHIFT_RIGHT = 55;
+
+	public boolean isCtrlDown() {
+		return this.isKeyPressed(SCAN_CODE_CTRL) || this.isKeyPressed(SCAN_CODE_CTRL_LEFT) || this.isKeyPressed(SCAN_CODE_CTRL_RIGHT);
+	}
+
+	public boolean isShiftDown() {
+		return this.isKeyPressed(SCAN_CODE_SHIFT) || this.isKeyPressed(SCAN_CODE_SHIFT_LEFT) || this.isKeyPressed(SCAN_CODE_SHIFT_RIGHT);
+	}
+
 }

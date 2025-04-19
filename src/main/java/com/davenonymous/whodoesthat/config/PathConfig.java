@@ -3,19 +3,19 @@ package com.davenonymous.whodoesthat.config;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.nio.file.Path;
+import java.util.HashSet;
+import java.util.List;
 
 public class PathConfig {
 
 
 	public final ModConfigSpec.ConfigValue<String> CONFIG_PATH;
 	public final ModConfigSpec.ConfigValue<String> OUTPUT_FILE_JSON;
-	public final ModConfigSpec.ConfigValue<String> OUTPUT_FILE_YAML;
-	public final ModConfigSpec.ConfigValue<String> OUTPUT_FILE_CSV;
+	public final ModConfigSpec.ConfigValue<List<? extends String>> ADDITIONAL_PATHS;
 
 	public static Path configPath;
 	public static Path outputFileJson;
-	public static Path outputFileYaml;
-	public static Path outputFileCsv;
+	public static HashSet<String> additionalPaths;
 
 	public PathConfig(ModConfigSpec.Builder builder) {
 		builder.push("paths");
@@ -30,15 +30,11 @@ public class PathConfig {
 			.translation("whodoesthat.configuration.json_target")
 			.define("jsonDestination", "modinfo.json");
 
-		OUTPUT_FILE_YAML = builder
-			.comment("Where to write the minimal YAML formatted mod analysis to")
-			.translation("whodoesthat.configuration.yaml_target")
-			.define("yamlDestination", "modinfo.yaml");
-
-		OUTPUT_FILE_CSV = builder
-			.comment("Where to write the CSV summary table to")
-			.translation("whodoesthat.configuration.csv_target")
-			.define("csvDestination", "modinfo-summary.csv");
+		ADDITIONAL_PATHS = builder
+			.comment("Additional paths to scan for jars.")
+			.translation("whodoesthat.configuration.additional_paths")
+			.<String>defineListAllowEmpty(
+				"additionalPaths", List.of(), String::new, p -> p instanceof String);
 
 		builder.pop();
 	}
@@ -46,7 +42,6 @@ public class PathConfig {
 	public void load() {
 		configPath = Path.of(CONFIG_PATH.get());
 		outputFileJson = Path.of(OUTPUT_FILE_JSON.get());
-		outputFileYaml = Path.of(OUTPUT_FILE_YAML.get());
-		outputFileCsv = Path.of(OUTPUT_FILE_CSV.get());
+		additionalPaths = new HashSet<>(ADDITIONAL_PATHS.get());
 	}
 }

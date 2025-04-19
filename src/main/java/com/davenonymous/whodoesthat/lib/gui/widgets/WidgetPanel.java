@@ -146,6 +146,10 @@ public class WidgetPanel extends Widget {
 		return this;
 	}
 
+	public List<Widget> children() {
+		return children;
+	}
+
 	@Override
 	public boolean focusable() {
 		return false;

@@ -8,13 +8,11 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.util.Size2i;
 
-import java.awt.*;
-
 public class WidgetImage extends Widget {
 	ResourceLocation image;
 	float textureWidth = 16.0f;
 	float textureHeight = 16.0f;
-	Color color;
+	int color = 0xFFFFFF;
 	float alpha = 1.0f;
 	float scale = 1.0f;
 	Size2i offset = new Size2i(0, 0);
@@ -25,8 +23,8 @@ public class WidgetImage extends Widget {
 
 	public WidgetImage(DynamicImageResources.ModLogo logo) {
 		this.image = logo.resource();
-		this.textureWidth = logo.size().width;
-		this.textureHeight = logo.size().height;
+		this.textureWidth = logo.image().getWidth();
+		this.textureHeight = logo.image().getHeight();
 	}
 
 	public WidgetImage setTextureSize(float width, float height) {
@@ -54,15 +52,15 @@ public class WidgetImage extends Widget {
 		return setOffset(new Size2i(x, y));
 	}
 
-	public WidgetImage setColor(Color color) {
-		this.alpha = color.getAlpha() / 255;
-		this.color = color;
+	public WidgetImage setColor(int color) {
+		this.alpha = (color >> 24 & 0xFF) / 255.0F;
+		this.color = color & 0x00FFFFFF;
 		return this;
 	}
 
 	public WidgetImage resetColor() {
 		this.alpha = 1.0f;
-		this.color = null;
+		this.color = 0xFFFFFF;
 		return this;
 	}
 
@@ -71,14 +69,27 @@ public class WidgetImage extends Widget {
 		return this;
 	}
 
+	public float textureHeight() {
+		return textureHeight;
+	}
+
+	public float textureWidth() {
+		return textureWidth;
+	}
+
 	@Override
 	public void draw(GuiGraphics pGuiGraphics, Screen screen) {
 		if(visible && areAllParentsVisible()) {
 			RenderSystem.enableBlend();
-			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+			float r = (color >> 16 & 0xFF) / 255.0F;
+			float g = (color >> 8 & 0xFF) / 255.0F;
+			float b = (color & 0xFF) / 255.0F;
+
+			RenderSystem.setShaderColor(r, g, b, alpha);
 			pGuiGraphics.pose().pushPose();
 			pGuiGraphics.pose().scale(scale, scale, 1);
 			pGuiGraphics.blitInscribed(this.image, offset.width, offset.height, this.width, this.height, (int) this.textureWidth, (int) this.textureHeight, true, true);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 			pGuiGraphics.pose().popPose();
 		}
 	}

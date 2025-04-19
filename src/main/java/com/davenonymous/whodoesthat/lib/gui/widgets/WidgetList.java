@@ -6,6 +6,7 @@ import com.davenonymous.whodoesthat.lib.gui.ISelectable;
 import com.davenonymous.whodoesthat.lib.gui.event.*;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.phys.Vec2;
 
 
 public class WidgetList extends WidgetPanel {
@@ -21,18 +22,48 @@ public class WidgetList extends WidgetPanel {
 	boolean showSelection = true;
 	boolean drawBackground = true;
 	boolean autoSelectFirstEntry = false;
+	int totalHeight = 0;
+
+	Vec2 dragStart = new Vec2(0, 0);
 
 	public WidgetList() {
 		super();
 
 		this.addListener(
+			MouseReleasedEvent.class, (event, widget) -> {
+				getGUI().setDragging(false);
+				return WidgetEventResult.CONTINUE_PROCESSING;
+			}
+		);
+
+		this.addListener(
+			WidgetSizeChangeEvent.class, ((event, widget) -> {
+				if(event.changedWidget() == widget) {
+					this.width = event.newWidth();
+					this.height = event.newHeight();
+					updateWidgets();
+					return WidgetEventResult.HANDLED;
+				}
+
+				return WidgetEventResult.CONTINUE_PROCESSING;
+			})
+		);
+
+		this.addListener(
 			MouseScrollEvent.class, (event, widget) -> {
+				if(!this.areAllParentsVisible()) {
+					return WidgetEventResult.CONTINUE_PROCESSING;
+				}
+
 				if(widget.isPosInside(event.mouseX, event.mouseY)) {
+					var scrollValue = Math.abs((int) Math.ceil(event.rawScrollValue));
 					if(event.up) {
-						this.scrollUp();
+						this.scrollUp(scrollValue);
 					} else {
-						this.scrollDown();
+						this.scrollDown(scrollValue);
 					}
+
+					return WidgetEventResult.HANDLED;
 				}
 
 				return WidgetEventResult.CONTINUE_PROCESSING;
@@ -41,6 +72,12 @@ public class WidgetList extends WidgetPanel {
 
 		this.addListener(
 			MouseDraggedEvent.class, (event, widget) -> {
+				if(!getGUI().isDragging()) {
+					getGUI().setDragging(true);
+					dragStart = new Vec2((float) event.mouseX(), (float) event.mouseY());
+				}
+
+
 				boolean drawScrollbar = visibleWidgets < getTotalLines();
 				if(!drawScrollbar) {
 					return WidgetEventResult.CONTINUE_PROCESSING;
@@ -48,7 +85,11 @@ public class WidgetList extends WidgetPanel {
 
 				int scrollbarWidth = 8;
 				int scrollBarX = this.getActualX() + this.width - scrollbarWidth + 1;
-				if(event.mouseX() < scrollBarX || event.mouseX() > scrollBarX + scrollbarWidth) {
+				if(dragStart.x < scrollBarX || dragStart.x > scrollBarX + scrollbarWidth) {
+					return WidgetEventResult.CONTINUE_PROCESSING;
+				}
+
+				if(!this.isPosInside(event.mouseX(), event.mouseY())) {
 					return WidgetEventResult.CONTINUE_PROCESSING;
 				}
 
@@ -98,7 +139,7 @@ public class WidgetList extends WidgetPanel {
 	public void clear() {
 		super.clear();
 		this.selected = -1;
-		this.fireEvent(new ListSelectionEvent(this.selected));
+		this.fireEvent(new ListSelectionEvent(this.selected, (Widget) getSelectedWidget()));
 	}
 
 	public void scrollToTop() {
@@ -106,16 +147,20 @@ public class WidgetList extends WidgetPanel {
 	}
 
 	public void scrollUp() {
-		this.lineOffset = Math.max(0, this.lineOffset - this.scrollLines);
+		scrollUp(1);
+	}
+
+	public void scrollUp(int lines) {
+		this.lineOffset = Math.max(0, this.lineOffset - lines);
 		this.updateWidgets();
 	}
 
 	public void scrollDown() {
-		if(lastVisibleLine == getTotalLines() - 1) {
-			return;
-		}
+		scrollDown(1);
+	}
 
-		this.lineOffset += this.scrollLines;
+	public void scrollDown(int lines) {
+		this.lineOffset = Math.min(this.lineOffset + lines, getTotalLines() - visibleWidgets);
 		this.updateWidgets();
 	}
 
@@ -133,7 +178,7 @@ public class WidgetList extends WidgetPanel {
 
 		this.getSelectedWidget().setSelected(false);
 		this.selected = -1;
-		this.fireEvent(new ListSelectionEvent(this.selected));
+		this.fireEvent(new ListSelectionEvent(this.selected, (Widget) getSelectedWidget()));
 	}
 
 	public void select(int index) {
@@ -149,7 +194,11 @@ public class WidgetList extends WidgetPanel {
 		if(this.getSelectedWidget() != null) {
 			this.getSelectedWidget().setSelected(true);
 		}
-		this.fireEvent(new ListSelectionEvent(this.selected));
+		this.fireEvent(new ListSelectionEvent(this.selected, (Widget) getSelectedWidget()));
+	}
+
+	public int getTotalHeight() {
+		return Math.max(0, this.totalHeight - padding);
 	}
 
 	public int getTotalLines() {
@@ -245,8 +294,10 @@ public class WidgetList extends WidgetPanel {
 			GUI.LOGGER.warn("Height-less widget [{}] added to list. This will cause problems.", widget);
 		}
 		if(widget.height > this.height) {
-			GUI.LOGGER.warn("List has an entry [{}] larger than the list itself. This will cause problems.", widget);
+			GUI.LOGGER.warn("List has an entry [{}]={}px larger than the list={}px itself. This will cause problems.", widget, widget.height, this.height);
 		}
+
+		this.totalHeight += widget.height + padding;
 
 		widget.addListener(
 			MouseClickEvent.class, (event, clickedWidget) -> {
@@ -265,9 +316,9 @@ public class WidgetList extends WidgetPanel {
 					widget.setSelected(true);
 				}
 
-				this.fireEvent(new ListSelectionEvent(this.selected));
+				this.fireEvent(new ListSelectionEvent(this.selected, (Widget) getSelectedWidget()));
 
-				return WidgetEventResult.CONTINUE_PROCESSING;
+				return WidgetEventResult.HANDLED;
 			}
 		);
 
@@ -288,6 +339,14 @@ public class WidgetList extends WidgetPanel {
 		visibleWidgets = 0;
 		for(int line = 0; line < this.children.size(); line++) {
 			Widget widget = this.children.get(line);
+			if(widget instanceof WidgetTextBox tb) {
+				tb.autoWidth();
+				if(tb.width > this.width - 11 - padding * 2) {
+					tb.setWidth(this.width - 11 - padding * 2);
+				}
+			} else {
+				widget.setWidth(this.width - 11 - padding * 2);
+			}
 
 			if(line < lineOffset) {
 				// Widget is scrolled past -> hide
@@ -312,6 +371,7 @@ public class WidgetList extends WidgetPanel {
 			widget.setVisible(true);
 			widget.setY(visibleHeight);
 			widget.setX(padding);
+
 			visibleHeight += widget.height;
 			lastVisibleLine = line;
 			visibleWidgets++;

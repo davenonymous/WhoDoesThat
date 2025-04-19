@@ -18,6 +18,7 @@ public class Widget {
 	public int width;
 	public int height;
 	public float scale = 1.0F;
+	public float zLevel = 0.0F;
 
 	boolean enabled = true;
 	boolean focused = false;
@@ -93,6 +94,10 @@ public class Widget {
 		this.setSize(width, height);
 		this.setPosition(x, y);
 		return this;
+	}
+
+	public boolean isHovered() {
+		return this.hovered;
 	}
 
 	public boolean hasToolTip() {
@@ -289,11 +294,15 @@ public class Widget {
 	}
 
 	public void setWidth(int width) {
+		int oldWidth = this.width;
 		this.width = width;
+		this.fireEvent(new WidgetSizeChangeEvent(oldWidth, this.height, width, this.height, this));
 	}
 
 	public void setHeight(int height) {
+		int oldHeight = this.height;
 		this.height = height;
+		this.fireEvent(new WidgetSizeChangeEvent(this.width, oldHeight, this.width, height, this));
 	}
 
 	public void setVisible(boolean visible) {
@@ -348,14 +357,30 @@ public class Widget {
 		this.drawBeforeShift(pGuiGraphics, screen);
 
 		pGuiGraphics.pose().pushPose();
-		pGuiGraphics.pose().translate(this.x, this.y, 0);
+		pGuiGraphics.pose().translate(this.x, this.y, this.zLevel);
 		pGuiGraphics.pose().scale(this.scale, this.scale, this.scale);
 		this.draw(pGuiGraphics, screen);
 
 		if(renderDebugOutlines) {
 			pGuiGraphics.renderOutline(-1, -1, this.width + 1, this.height + 1, 0xFF000000 + (this.getClass().getSimpleName().hashCode() & 0xFFFFFF));
+
+			if(isHovered()) {
+				if(!(this instanceof WidgetPanel) || (this instanceof WidgetPanel panel && !panel.children().stream().anyMatch(w -> w.isHovered() && w.isVisible()))) {
+					String what = String.format("%s", this.getClass().getSimpleName());
+					String pos = String.format("x=%d y=%d", this.x, this.y);
+					String size = String.format("w=%d h=%d", this.width, this.height);
+					pGuiGraphics.drawString(screen.getMinecraft().font, what, 0, 0, 0xFF8000);
+					pGuiGraphics.drawString(screen.getMinecraft().font, pos, 0, 10, 0xFF8000);
+					pGuiGraphics.drawString(screen.getMinecraft().font, size, 0, 20, 0xFF8000);
+
+					this.renderExtraDebugInfo(pGuiGraphics, screen);
+				}
+			}
 		}
 		pGuiGraphics.pose().popPose();
+	}
+
+	public void renderExtraDebugInfo(GuiGraphics pGuiGraphics, Screen screen) {
 	}
 
 	/**

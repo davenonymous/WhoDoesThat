@@ -1,5 +1,6 @@
 package com.davenonymous.whodoesthat.lib.gui;
 
+import com.davenonymous.whodoesthat.WhoDoesThat;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -11,21 +12,72 @@ import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.resources.IoSupplier;
-import net.neoforged.neoforge.common.util.Size2i;
 import net.neoforged.neoforge.resource.ResourcePackLoader;
 import net.neoforged.neoforgespi.language.IModInfo;
+import org.lwjgl.system.MemoryUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class DynamicImageResources {
-	public record ModLogo(ResourceLocation resource, Size2i size) {
+	public record ModLogo(ResourceLocation resource, NativeImage image) {
 	}
 
 	private static Map<String, ModLogo> modLogos = new HashMap<>();
+
+	public static Optional<ModLogo> getImage(String path, byte[] bytes) {
+		try {
+			var bb = MemoryUtil.memAlloc(bytes.length);
+			bb.put(bytes);
+			bb.rewind();
+
+			var logo = NativeImage.read(bb);
+			TextureManager tm = Minecraft.getInstance().getTextureManager();
+			ResourceLocation resource = tm.register(
+				"modimage_" + path.hashCode(), new DynamicTexture(logo) {
+					public void upload() {
+						this.bind();
+						NativeImage td = this.getPixels();
+						this.getPixels().upload(0, 0, 0, 0, 0, td.getWidth(), td.getHeight(), false, false, false, false);
+						//this.getPixels().close();
+					}
+				}
+			);
+
+			return Optional.of(new ModLogo(resource, logo));
+		} catch (Exception e) {
+			WhoDoesThat.LOGGER.warn("Failed to read image from {}: {}", path, e);
+		}
+
+		return Optional.empty();
+	}
+
+
+	public static Optional<ModLogo> getImage(Path path, InputStream inputStream) {
+		try {
+			var logo = NativeImage.read(inputStream);
+			TextureManager tm = Minecraft.getInstance().getTextureManager();
+			ResourceLocation resource = tm.register(
+				"modimage_" + path.toString(), new DynamicTexture(logo) {
+					public void upload() {
+						this.bind();
+						NativeImage td = this.getPixels();
+						this.getPixels().upload(0, 0, 0, 0, 0, td.getWidth(), td.getHeight(), false, false, false, false);
+					}
+				}
+			);
+
+			return Optional.of(new ModLogo(resource, logo));
+		} catch (IOException e) {
+			WhoDoesThat.LOGGER.warn("Failed to read image from {}: {}", path, e);
+		}
+
+		return Optional.empty();
+	}
 
 	public static Optional<ModLogo> getModLogo(IModInfo modInfo) {
 		String modId = modInfo.getModId();
@@ -64,7 +116,7 @@ public class DynamicImageResources {
 					}
 				);
 
-				modLogos.put(modId, new ModLogo(resource, new Size2i(logo.getWidth(), logo.getHeight())));
+				modLogos.put(modId, new ModLogo(resource, logo));
 			}
 		} catch (IllegalArgumentException | IOException var11) {
 		}

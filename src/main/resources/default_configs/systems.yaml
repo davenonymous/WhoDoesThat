@@ -1,0 +1,856 @@
+types:
+  - id: java.NettyHttp
+    type: io\.netty\.handler\.codec\.http.*
+    description: Uses Netty HTTP
+    category: meta_systems
+    tags:
+      - meta_system
+      - netty
+      - http
+  - id: java.NettyHttpServer
+    type: io.netty.handler.codec.http.HttpServerCodec
+    description: Includes HTTP Server
+    category: meta_systems
+    tags:
+      - meta_system
+      - netty
+      - http
+      - questionable
+  - id: java.MCreator
+    type: net.mcreator.*
+    description: Created with MCreator
+    category: meta_systems
+    tags:
+      - meta_system
+      - questionable
+
+calls:
+  - id: java.RuntimeExec
+    method: java.lang.Runtime.exec.*
+    description: Executes external system commands
+    category: meta_systems
+    tags:
+      - meta_system
+      - questionable
+  - id: java.Logger
+    method: org.slf4j.Logger.*
+    description: Uses SLF4J Logger
+    category: meta_systems
+    tags:
+      - meta_system
+      - logging
+  - id: java.Calendar
+    method: java.util.Calendar.get
+    description: Uses calendar
+    category: meta_systems
+    tags:
+      - meta_system
+      - april_fools
+      - time
+  - id: java.Date
+    method: java.util.Date.*
+    description: Uses DateTime
+    category: meta_systems
+    tags:
+      - meta_system
+      - april_fools
+      - time
+
+annotations:
+  - id: java.GameTest
+    annotation: net.minecraft.gametest.framework.GameTest
+    description: Automatic Testing
+    category: meta_systems
+    type: method
+    tags:
+      - meta_system
+      - testing
+    params:
+      - template
+  - id: java.JEIPlugin
+    annotation: mezz.jei.api.JeiPlugin
+    description: JEI Integration
+    category: mod_compatibility
+    type: class
+    tags:
+      - meta_system
+      - mod_plugin
+      - addition
+  - id: java.JadePlugin
+    annotation: snownee.jade.api.WailaPlugin
+    description: Jade Integration
+    category: mod_compatibility
+    type: class
+    tags:
+      - meta_system
+      - mod_plugin
+      - addition
+
+
+fields:
+  - id: java.ForgeConfig
+    type: net.neoforged.neoforge.common.ModConfigSpec
+    description: Has NeoForge Config
+    category: meta_systems
+    tags:
+      - meta_system
+      - config
+      - block
+      - registry
+  - id: java.Inventory
+    type: net.neoforged.neoforge.items.IItemHandler
+    description: Has Inventories
+    category: meta_systems
+    tags:
+      - meta_system
+      - inventory
+      - item
+
+events:
+  - event: net.neoforged.neoforge.event.AddPackFindersEvent
+    id: event.AddPackFinders
+    description: Adds Resource/Data Pack Finders
+    category: meta_systems
+    tags:
+      - meta_system
+      - registry
+      - data_pack
+      - resource_pack
+  - event: net.neoforged.neoforge.event.AddReloadListenerEvent
+    id: event.AddReloadListeners
+    description: Adds Reload Listeners
+    category: meta_systems
+    tags:
+      - meta_system
+      - registry
+      - data_pack
+  - event: net.neoforged.neoforge.event.entity.player.ArrowLooseEvent
+    id: event.ArrowLoose
+    description: Listens to Bow Loose Events
+    category: action_events
+    tags:
+      - meta_system
+      - action
+      - modification
+  - event: net.neoforged.neoforge.event.entity.player.ArrowNockEvent
+    id: event.ArrowNock
+    description: Listens to Bow Nock Events
+    category: action_events
+    tags:
+      - meta_system
+      - action
+      - modification
+  - event: net.neoforged.neoforge.event.level.BlockEvent$PortalSpawnEvent
+    id: event.Block.PortalSpawn
+    description: Listens to portal spawning
+    category: world_events
+    tags:
+      - meta_system
+      - world
+  - event: net.neoforged.neoforge.event.level.ChunkEvent$Load
+    id: event.Chunk.Load
+    description: Listens to Chunk Load Events
+    category: world_events
+    tags:
+      - meta_system
+      - world
+      - chunk
+  - event: net.neoforged.neoforge.event.level.ChunkEvent$Unload
+    id: event.Chunk.Unload
+    description: Listens to Chunk Unload Events
+    category: world_events
+    tags:
+      - meta_system
+      - world
+      - chunk
+  - event: net.neoforged.neoforge.event.level.ChunkTicketLevelUpdatedEvent
+    id: event.ChunkTicketLevelUpdated
+    description: Handles Chunk Loading
+    category: world_events
+    tags:
+      - meta_system
+      - world
+      - chunk
+  - event: net.neoforged.neoforge.client.event.ClientChatEvent
+    id: event.ClientChat
+    description: Listens to Client Chat Messages
+    category: chat_events
+    tags:
+      - meta_system
+      - chat
+  - event: net.neoforged.neoforge.client.event.ClientTickEvent$Post
+    id: event.ClientTick.Post
+    description: Runs Client Post Tick Logic
+    category: tick_events
+    tags:
+      - meta_system
+      - ticker
+  - event: net.neoforged.neoforge.client.event.ClientTickEvent$Pre
+    id: event.ClientTick.Pre
+    description: Runs Client Pre Tick Logic
+    category: tick_events
+    tags:
+      - meta_system
+      - ticker
+  - event: net.neoforged.neoforge.registries.datamaps.DataMapsUpdatedEvent
+    id: event.DataMapsUpdated
+    description: Uses Data Maps
+    category: meta_systems
+    tags:
+      - meta_system
+      - registry
+      - data_map
+  - event: net.neoforged.neoforge.event.entity.EntityJoinLevelEvent
+    id: event.EntityJoinLevel
+    description: Listens to Entity Join World Events
+    category: world_events
+    tags:
+      - meta_system
+      - world
+      - entity
+  - event: net.neoforged.neoforge.event.tick.EntityTickEvent$Post
+    id: event.EntityTick.Post
+    description: Runs Entity Post Tick Logic
+    category: tick_events
+    tags:
+      - meta_system
+      - ticker
+      - entity
+  - event: net.neoforged.neoforge.event.tick.EntityTickEvent$Pre
+    id: event.EntityTick.Pre
+    description: Runs Entity Pre Tick Logic
+    category: tick_events
+    tags:
+      - meta_system
+      - ticker
+      - entity
+  - event: net.neoforged.neoforge.event.level.ExplosionEvent$Detonate
+    id: event.Explosion.Detonate
+    description: Handles Explosion Detonation
+    category: world_events
+    tags:
+      - meta_system
+      - explosion
+  - event: net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent
+    id: event.FinalizeSpawn
+    description: Modifies Entity Spawning
+    category: world_events
+    tags:
+      - meta_system
+      - entity
+      - spawn
+  - event: net.neoforged.neoforge.client.event.InputEvent
+    id: event.Input
+    description: Handles Keyboard/Mouse Input
+    category: input_events
+    tags:
+      - meta_system
+      - input
+  - event: net.neoforged.fml.event.lifecycle.InterModProcessEvent
+    id: event.InterModProcess
+    description: Listens to Inter-Mod Communication Events
+    category: meta_systems
+    tags:
+      - meta_system
+      - mod_plugin
+  - event: net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent$Post
+    id: event.ItemEntityPickup.Post
+    description: Listens to Post Item Pickup Events
+    category: game_events
+    tags:
+      - meta_system
+      - item
+      - pickup
+  - event: net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent$Pre
+    id: event.ItemEntityPickup.Pre
+    description: Listens to Pre Item Pickup Events
+    category: game_events
+    tags:
+      - meta_system
+      - item
+      - pickup
+  - event: net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent
+    id: event.ItemEntityPickup
+    description: Listens to Item Pickup Events
+    category: game_events
+    tags:
+      - meta_system
+      - item
+      - pickup
+  - event: net.neoforged.neoforge.event.tick.LevelTickEvent$Post
+    id: event.LevelTick.Post
+    description: Runs World Post Tick Logic
+    category: tick_events
+    tags:
+      - meta_system
+      - ticker
+      - world
+  - event: net.neoforged.neoforge.event.tick.LevelTickEvent$Pre
+    id: event.LevelTick.Pre
+    description: Runs World Pre Tick Logic
+    category: tick_events
+    tags:
+      - meta_system
+      - ticker
+      - world
+  - event: net.neoforged.neoforge.event.entity.living.LivingBreatheEvent
+    id: event.LivingBreathe
+    description: Listens to Entity Breathing Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - action
+  - event: net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent
+    id: event.LivingChangeTarget
+    description: Listens to Entity AI Target Change Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - ai
+  - event: net.neoforged.neoforge.event.entity.living.LivingConversionEvent
+    id: event.LivingConversion
+    description: Listens to Entity Conversion Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - spawn
+  - event: net.neoforged.neoforge.event.entity.living.LivingDeathEvent
+    id: event.LivingDeath
+    description: Listens to Entity Death Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - action
+  - event: net.neoforged.neoforge.event.entity.living.LivingDestroyBlockEvent
+    id: event.LivingDestroyBlock
+    description: Listens to Entity Block Destruction Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - block
+  - event: net.neoforged.neoforge.event.entity.living.LivingDropsEvent
+    id: event.LivingDrops
+    description: Listens to Entity Drop Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - loot
+  - event: net.neoforged.neoforge.event.entity.living.LivingDrownEvent
+    id: event.LivingDrown
+    description: Listens to Entity Drowning Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - action
+  - event: net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent
+    id: event.LivingEntityUseItem
+    description: Listens to Entity Item Use Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - action
+      - item
+  - event: net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent
+    id: event.LivingEquipmentChange
+    description: Listens to Entity Equipment Change Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - action
+      - item
+  - event: net.neoforged.neoforge.event.entity.living.LivingEvent$LivingJumpEvent
+    id: event.LivingJump
+    description: Listens to Entity Jump Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - action
+  - event: net.neoforged.neoforge.event.entity.living.LivingFallEvent
+    id: event.LivingFall
+    description: Listens to Entity Fall Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - action
+  - event: net.neoforged.neoforge.event.entity.living.LivingHealEvent
+    id: event.LivingHeal
+    description: Listens to Entity Healing Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - action
+  - event: net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
+    id: event.LivingIncomingDamage
+    description: Listens to Entity Damage Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - damage
+  - event: net.neoforged.neoforge.event.entity.living.LivingKnockBackEvent
+    id: event.LivingKnockBack
+    description: Listens to Entity Knockback Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - action
+      - damage
+  - event: net.neoforged.neoforge.event.entity.living.LivingShieldBlockEvent
+    id: event.LivingShieldBlock
+    description: Listens to Entity Shield Block Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - action
+      - damage
+  - event: net.neoforged.neoforge.event.entity.living.MobEffectEvent$Added
+    id: event.MobEffect.Added
+    description: Listens to Potion Effect Added Events
+    category: world_events
+    tags:
+      - meta_system
+      - entity
+      - potion
+      - action
+  - event: net.neoforged.neoforge.event.entity.living.MobEffectEvent$Applicable
+    id: event.MobEffect.Applicable
+    description: Listens to Potion Effect Applicable Events
+    category: world_events
+    tags:
+      - meta_system
+      - entity
+      - potion
+      - action
+  - event: net.neoforged.neoforge.event.entity.living.MobEffectEvent$Expired
+    id: event.MobEffect.Expired
+    description: Listens to Potion Effect Expired Events
+    category: world_events
+    tags:
+      - meta_system
+      - entity
+      - potion
+      - action
+  - event: net.neoforged.neoforge.event.entity.living.MobEffectEvent$Remove
+    id: event.MobEffect.Remove
+    description: Listens to Potion Effect Removed Events
+    category: world_events
+    tags:
+      - meta_system
+      - entity
+      - potion
+      - action
+  - event: net.neoforged.neoforge.event.entity.living.MobEffectEvent
+    id: event.MobEffect
+    description: Listens to Potion Effect Events
+    category: world_events
+    tags:
+      - meta_system
+      - entity
+      - potion
+      - action
+  - event: net.neoforged.fml.event.config.ModConfigEvent$Loading
+    id: event.ModConfig.Loading
+    description: Auto-reloads Config Files
+    category: meta_systems
+    tags:
+      - meta_system
+      - config
+  - event: net.neoforged.fml.event.config.ModConfigEvent$Reloading
+    id: event.ModConfig.Reloading
+    description: Auto-reloads Config Files
+    category: meta_systems
+    tags:
+      - meta_system
+      - config
+  - event: net.neoforged.fml.event.config.ModConfigEvent$Unloading
+    id: event.ModConfig.Unloading
+    description: Auto-reloads Config Files
+    category: meta_systems
+    tags:
+      - meta_system
+      - config
+  - event: net.neoforged.fml.event.config.ModConfigEvent
+    id: event.ModConfig
+    description: Auto-reloads Config Files
+    category: meta_systems
+    tags:
+      - meta_system
+      - config
+  - event: net.neoforged.neoforge.event.OnDatapackSyncEvent
+    id: event.OnDatapackSync
+    description: Custom Data Pack Sync
+    category: meta_systems
+    tags:
+      - meta_system
+      - data_pack
+  - event: net.neoforged.neoforge.event.entity.player.PlayerEvent$HarvestCheck
+    id: event.PlayerHarvestCheck
+    description: Handles Block Harvesting
+    category: world_events
+    tags:
+      - meta_system
+      - block
+      - block_breaking
+      - player
+  - event: net.neoforged.neoforge.event.entity.player.PlayerEvent$ItemCraftedEvent
+    id: event.PlayerItemCrafted
+    description: Listens to Item Crafting Events
+    category: world_events
+    tags:
+      - meta_system
+      - item
+      - recipe
+      - crafting
+  - event: net.neoforged.neoforge.event.entity.player.PlayerEvent$ItemSmeltedEvent
+    id: event.PlayerItemSmelted
+    description: Listens to Item Smelting Events
+    category: world_events
+    tags:
+      - meta_system
+      - item
+      - recipe
+      - crafting
+  - event: net.neoforged.neoforge.event.entity.player.PlayerEvent$PlayerChangeGameModeEvent
+    id: event.PlayerChangeGameMode
+    description: Listens to Game Mode Change Events
+    category: world_events
+    tags:
+      - meta_system
+      - player
+      - game_mode
+  - event: net.neoforged.neoforge.event.entity.player.PlayerEvent$PlayerChangedDimensionEvent
+    id: event.PlayerChangedDimension
+    description: Listens to Dimension Change Events
+    category: world_events
+    tags:
+      - meta_system
+      - player
+      - spawn
+      - dimension
+  - event: net.neoforged.neoforge.event.entity.player.PlayerEvent$PlayerLoggedInEvent
+    id: event.PlayerLoggedIn
+    description: Listens to Player Login Events
+    category: meta_systems
+    tags:
+      - meta_system
+      - player
+      - spawn
+  - event: net.neoforged.neoforge.event.entity.player.PlayerEvent$PlayerLoggedOutEvent
+    id: event.PlayerLoggedOut
+    description: Listens to Player Logout Events
+    category: meta_systems
+    tags:
+      - meta_system
+      - player
+  - event: net.neoforged.neoforge.event.entity.player.PlayerInteractEvent$EntityInteract
+    id: event.PlayerInteract.EntityInteract
+    description: Listens to Entity Interaction Events
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - player
+      - action
+  - event: net.neoforged.neoforge.event.entity.player.PlayerInteractEvent$EntityInteractSpecific
+    id: event.PlayerInteract.EntityInteractSpecific
+    description: Listens to Entity Interaction Events with Click Positions
+    category: entity_events
+    tags:
+      - meta_system
+      - entity
+      - player
+      - action
+  - event: net.neoforged.neoforge.event.entity.player.PlayerInteractEvent$LeftClickBlock
+    id: event.PlayerInteract.LeftClickBlock
+    description: Listens to Left Click Block Events
+    category: action_events
+    tags:
+      - meta_system
+      - player
+      - block
+      - action
+  - event: net.neoforged.neoforge.event.entity.player.PlayerInteractEvent$LeftClickEmpty
+    id: event.PlayerInteract.LeftClickEmpty
+    description: Handles Left Clicks with Empty Hands (Client-side)
+    category: action_events
+    tags:
+      - meta_system
+      - player
+      - action
+  - event: net.neoforged.neoforge.event.entity.player.PlayerInteractEvent$RightClickBlock
+    id: event.PlayerInteract.RightClickBlock
+    description: Listens to Right Click Block Events
+    category: action_events
+    tags:
+      - meta_system
+      - player
+      - block
+      - action
+  - event: net.neoforged.neoforge.event.entity.player.PlayerInteractEvent$RightClickEmpty
+    id: event.PlayerInteract.RightClickEmpty
+    description: Handles Right Clicks with Empty Hands (Client-side)
+    category: action_events
+    tags:
+      - meta_system
+      - player
+      - action
+  - event: net.neoforged.neoforge.event.entity.player.PlayerInteractEvent$RightClickItem
+    id: event.PlayerInteract.RightClickItem
+    description: Handles Right Clicks with Items
+    category: action_events
+    tags:
+      - meta_system
+      - player
+      - item
+      - action
+  - event: net.neoforged.neoforge.event.tick.PlayerTickEvent$Post
+    id: event.PlayerTick.Post
+    description: Runs Player Post Tick Logic
+    category: tick_events
+    tags:
+      - meta_system
+      - ticker
+      - player
+  - event: net.neoforged.neoforge.event.tick.PlayerTickEvent$Pre
+    id: event.PlayerTick.Pre
+    description: Runs Player Pre Tick Logic
+    category: tick_events
+    tags:
+      - meta_system
+      - ticker
+      - player
+  - event: net.neoforged.neoforge.event.tick.PlayerTickEvent
+    id: event.PlayerTick
+    description: Runs Player Tick Logic
+    category: tick_events
+    tags:
+      - meta_system
+      - ticker
+      - player
+  - event: net.neoforged.neoforge.client.event.RecipesUpdatedEvent
+    id: event.RecipesUpdated
+    description: Listens to Recipe Updates
+    category: meta_systems
+    tags:
+      - meta_system
+      - recipe
+  - event: net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
+    id: event.RegisterCapabilities
+    description: Has Capability Providers
+    category: meta_systems
+    tags:
+      - meta_system
+      - capability
+  - event: net.neoforged.neoforge.client.event.RegisterColorHandlersEvent
+    id: event.RegisterColorHandlers
+    description: Custom Block/Item Color Handlers
+    category: custom_content
+    tags:
+      - meta_system
+      - block
+      - item
+      - rendering
+  - event: net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
+    id: event.RegisterPayloadHandlers
+    description: Custom Network Packets
+    category: meta_systems
+    tags:
+      - meta_system
+      - network
+  - event: net.neoforged.neoforge.client.event.RegisterClientCommandsEvent
+    id: event.RegisterClientCommands
+    description: Custom Client Commands
+    category: meta_systems
+    tags:
+      - meta_system
+      - command
+  - event: net.neoforged.neoforge.event.RegisterCommandsEvent
+    id: event.RegisterCommands
+    description: Custom Server Commands
+    category: meta_systems
+    tags:
+      - meta_system
+      - command
+  - event: net.neoforged.neoforge.client.event.ScreenEvent$CharacterTyped
+    id: event.Screen.CharacterTyped
+    description: Handles Typed Characters in GUIs
+    category: input_events
+    tags:
+      - meta_system
+      - input
+      - gui
+      - screen
+  - event: net.neoforged.neoforge.client.event.ScreenEvent$Closing
+    id: event.Screen.Closing
+    description: Listens to GUI Close Events
+    category: gui_events
+    tags:
+      - meta_system
+      - gui
+      - screen
+  - event: net.neoforged.neoforge.client.event.ScreenEvent$KeyPressed
+    id: event.Screen.KeyPressed
+    description: Handles Key Presses in GUIs
+    category: input_events
+    tags:
+      - meta_system
+      - input
+      - gui
+      - screen
+  - event: net.neoforged.neoforge.client.event.ScreenEvent$KeyReleased
+    id: event.Screen.KeyReleased
+    description: Handles Key Presses in GUIs
+    category: input_events
+    tags:
+      - meta_system
+      - input
+      - gui
+      - screen
+  - event: net.neoforged.neoforge.client.event.ScreenEvent$MouseButtonPressed
+    id: event.Screen.MouseButtonPressed
+    description: Handles Mouse Clicks in GUIs
+    category: input_events
+    tags:
+      - meta_system
+      - input
+      - gui
+      - screen
+  - event: net.neoforged.neoforge.client.event.ScreenEvent$MouseButtonReleased
+    id: event.Screen.MouseButtonReleased
+    description: Handles Mouse Clicks in GUIs
+    category: input_events
+    tags:
+      - meta_system
+      - input
+      - gui
+      - screen
+  - event: net.neoforged.neoforge.client.event.ScreenEvent$MouseScrolled
+    id: event.Screen.MouseScrolled
+    description: Handles Mouse Scrolling in GUIs
+    category: input_events
+    tags:
+      - meta_system
+      - input
+      - gui
+      - screen
+  - event: net.neoforged.neoforge.client.event.ScreenEvent$Opening
+    id: event.Screen.Opening
+    description: Listens to GUI Open Events
+    category: gui_events
+    tags:
+      - meta_system
+      - input
+      - gui
+      - screen
+  - event: net.neoforged.neoforge.event.server.ServerAboutToStartEvent
+    id: event.Server.AboutToStart
+    description: Listens to Server About to Start Events
+    category: server_events
+    tags:
+      - meta_system
+      - server
+  - event: net.neoforged.neoforge.event.ServerChatEvent
+    id: event.ServerChat
+    description: Listens to Server Chat Messages
+    category: chat_events
+    tags:
+      - meta_system
+      - chat
+  - event: net.neoforged.neoforge.event.server.ServerStartedEvent
+    id: event.Server.Started
+    description: Listens to Server Started Events
+    category: server_events
+    tags:
+      - meta_system
+      - server
+  - event: net.neoforged.neoforge.event.server.ServerStartingEvent
+    id: event.Server.Starting
+    description: Listens to Server Starting Events
+    category: server_events
+    tags:
+      - meta_system
+      - server
+  - event: net.neoforged.neoforge.event.server.ServerStoppedEvent
+    id: event.Server.Stopped
+    description: Listens to Server Stopped Events
+    category: server_events
+    tags:
+      - meta_system
+      - server
+  - event: net.neoforged.neoforge.event.server.ServerStoppingEvent
+    id: event.Server.Stopping
+    description: Listens to Server Stopping Events
+    category: server_events
+    tags:
+      - meta_system
+      - server
+  - event: net.neoforged.neoforge.event.tick.ServerTickEvent$Post
+    id: event.ServerTick.Post
+    description: Runs Server Post Tick Logic
+    category: tick_events
+    tags:
+      - meta_system
+      - ticker
+      - server
+  - event: net.neoforged.neoforge.event.tick.ServerTickEvent$Pre
+    id: event.ServerTick.Pre
+    description: Runs Server Pre Tick Logic
+    category: tick_events
+    tags:
+      - meta_system
+      - ticker
+      - server
+  - event: net.neoforged.neoforge.event.TagsUpdatedEvent
+    id: event.TagsUpdated
+    description: Listens to Tag Updates
+    category: meta_systems
+    tags:
+      - meta_system
+      - data_pack
+      - tag
+
+files:
+  - id: meta.accesstransformers
+    glob: "META-INF/accesstransformer.cfg"
+    description: Uses Access Transformers
+    category: code_modifications
+    tags:
+      - meta_system
+      - code_modification
+
+inheritance:
+  - id: java.Commands
+    parent: com.mojang.brigadier.Command
+    description: Has Commands
+    category: meta_systems
+    tags:
+      - meta_system
+      - command
+  - id: java.DataGenerators
+    parent: net.minecraft.data.DataProvider
+    description: Uses Data Generators
+    category: meta_systems
+    tags:
+      - meta_system
+      - data_generator
+  - id: java.SaveData
+    parent: net.minecraft.world.level.saveddata.SavedData
+    description: Stores Data in World Saves
+    category: meta_systems
+    tags:
+      - meta_system
+      - save_data

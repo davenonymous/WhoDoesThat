@@ -1,0 +1,180 @@
+annotations:
+  - id: org.spongepowered.asm.mixin.injection.Inject
+    category: code_modifications
+    description: Modifies Methods
+    tags:
+      - modification
+      - code_modification
+    type: method
+    params:
+      - id
+      - at
+      - cancellable
+
+events:
+  - event: net.neoforged.neoforge.event.level.BlockEvent$BreakEvent
+    id: event.Block.Break
+    description: Modifies Block Breaking
+    category: action_events
+    tags:
+      - modification
+      - block
+      - block_breaking
+  - event: net.neoforged.neoforge.event.level.BlockEvent$EntityPlaceEvent
+    id: event.Block.EntityPlace
+    description: Modifies Block Placement
+    category: action_events
+    tags:
+      - modification
+      - block
+      - block_placing
+  - event: net.neoforged.neoforge.event.level.BlockEvent$FarmlandTrampleEvent
+    id: event.Block.FarmlandTrample
+    description: Modifies Farmland Trampling
+    category: action_events
+    tags:
+      - modification
+      - block
+
+  - event: net.neoforged.neoforge.event.level.BlockEvent$FluidPlaceBlockEvent
+    id: event.Block.FluidPlaceBlock
+    description: Modifies Fluid Block Placement
+    category: action_events
+    tags:
+      - modification
+      - fluid
+  - event: net.neoforged.neoforge.event.level.ExplosionEvent$Start
+    id: event.Explosion.Start
+    description: Modifies Explosions
+    category: world_events
+    tags:
+      - modification
+      - explosion
+  - event: net.neoforged.neoforge.event.ItemAttributeModifierEvent
+    id: event.ItemAttributeModifier
+    description: Modifies Item Attributes
+    category: meta_systems
+    tags:
+      - modification
+      - item
+      - attribute
+  - event: net.neoforged.neoforge.event.entity.living.LivingDamageEvent
+    id: event.LivingDamage
+    description: Modifies Entity Damage Received
+    category: entity_events
+    tags:
+      - modification
+      - entity
+      - damage
+  - event: net.neoforged.neoforge.event.ModifyDefaultComponentsEvent
+    id: event.ModifyDefaultComponents
+    description: Modifies Default Components
+    category: meta_systems
+    tags:
+      - modification
+      - component
+      - meta_system
+  - event: net.neoforged.neoforge.event.entity.player.PlayerEvent$BreakSpeed
+    id: event.Player.BreakSpeed
+    description: Modifies Block Breaking Speed
+    category: action_events
+    tags:
+      - modification
+      - block
+      - block_breaking
+      - player
+  - event: net.neoforged.neoforge.client.event.RenderLevelStageEvent
+    id: event.Render.LevelStage
+    description: Modifies World Rendering
+    category: render_events
+    tags:
+      - modification
+      - rendering
+      - world
+  - event: net.neoforged.neoforge.client.event.RenderPlayerEvent
+    id: event.Render.Player
+    description: Modifies Player Rendering
+    category: render_events
+    tags:
+      - modification
+      - rendering
+      - player
+  - event: net.neoforged.neoforge.client.event.RenderTooltipEvent$GatherComponents
+    id: event.TooltipGatherComponents
+    description: Modifies Tooltips
+    category: gui_events
+    tags:
+      - modification
+      - gui
+      - tooltip
+  - event: net.neoforged.neoforge.client.event.ScreenEvent$Render$Post
+    id: event.Screen.Render.Post
+    description: Modifies Post GUI Rendering
+    category: render_events
+    tags:
+      - modification
+      - gui
+      - screen
+      - rendering
+  - event: net.neoforged.neoforge.client.event.ScreenEvent$Render$Pre
+    id: event.Screen.Render.Pre
+    description: Modifies Pre GUI Rendering
+    category: render_events
+    tags:
+      - modification
+      - gui
+      - screen
+      - rendering
+  - event: net.neoforged.neoforge.client.event.ScreenEvent$Render
+    id: event.Screen.Render
+    description: Modifies GUI Rendering
+    category: render_events
+    tags:
+      - modification
+      - gui
+      - screen
+      - rendering
+  - event: net.neoforged.neoforge.event.village.VillagerTradesEvent
+    id: event.VillagerTrades
+    description: Modifies Villager Trades
+    category: game_events
+    tags:
+      - modification
+      - villager
+      - trading
+  - event: net.neoforged.neoforge.event.village.WandererTradesEvent
+    id: event.WandererTrades
+    description: Modifies Wandering Trader Trades
+    category: game_events
+    tags:
+      - modification
+      - trading
+
+mixins:
+  - target: net.minecraft.client.gui.screens.Screen
+    id: mixin.Screen
+    category: code_modifications
+    tags:
+      - modification
+      - gui
+      - screen
+      - code_modification
+    description: Modifies GUI Screens (invasive)
+  - target: net.minecraft.world.entity.ai.Brain
+    id: mixin.EntityAI
+    category: code_modifications
+    tags:
+      - modification
+      - entity
+      - ai
+      - code_modification
+    description: Modifies Entity AI (invasive)
+  - target: net.minecraft.client.renderer.LevelRenderer
+    id: mixin.LevelRenderer
+    category: code_modifications
+    tags:
+      - modification
+      - rendering
+      - world
+      - code_modification
+    description: Modifies World Rendering (invasive)

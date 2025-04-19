@@ -2,6 +2,8 @@ package com.davenonymous.whodoesthat.lib.gui.widgets;
 
 import com.davenonymous.whodoesthat.lib.gui.GUIHelper;
 import com.davenonymous.whodoesthat.lib.gui.event.TabChangedEvent;
+import com.davenonymous.whodoesthat.lib.gui.event.WidgetEventResult;
+import com.davenonymous.whodoesthat.lib.gui.event.WidgetSizeChangeEvent;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -22,15 +24,21 @@ public class WidgetTabsPanel extends WidgetPanel {
 
 	public WidgetTabsPanel() {
 		super();
-		this.buttonsPanel = new WidgetPanel();
-		this.buttonsPanel.setVisible(false);
-		this.add(buttonsPanel);
-	}
 
-	@Override
-	public void setWidth(int width) {
-		super.setWidth(width);
-		this.buttonsPanel.setDimensions(0, 0, this.width, 32);
+		this.buttonsPanel = new WidgetPanel();
+		this.buttonsPanel.setSize(200, 32);
+		this.add(buttonsPanel);
+
+		this.addListener(
+			WidgetSizeChangeEvent.class, (event, widget) -> {
+				this.buttonsPanel.setDimensions(0, 0, event.newWidth(), 32);
+				for(var page : pages) {
+					page.setWidth(this.width);
+					page.setHeight(this.height - 32);
+				}
+				return WidgetEventResult.CONTINUE_PROCESSING;
+			}
+		);
 	}
 
 	public WidgetTabsPanel setEdge(TabDockEdge edge) {
@@ -45,6 +53,8 @@ public class WidgetTabsPanel extends WidgetPanel {
 		this.pageButtonWidget.clear();
 		this.pageTooltips.clear();
 		this.children.clear();
+
+		this.add(buttonsPanel);
 	}
 
 	public void addPage(WidgetPanel panel, Widget buttonStack) {
@@ -76,26 +86,30 @@ public class WidgetTabsPanel extends WidgetPanel {
 		updateButtonsPanel();
 	}
 
+	public void setActivePage(WidgetPanel page) {
+		if(!pages.contains(page)) {
+			return;
+		}
+
+		setActivePage(pages.indexOf(page));
+	}
+
 	public void setActivePage(int page) {
 		if(page < 0 || page >= pages.size()) {
 			return;
 		}
 
+		var oldPage = activePanel;
+		var newPage = pages.get(page);
 		activePanel.setVisible(false);
-		pages.get(page).setVisible(true);
+		newPage.setVisible(true);
+		activePanel = newPage;
 
-		WidgetPanel tmpOld = activePanel;
-		activePanel = pages.get(page);
-
-		this.fireEvent(new TabChangedEvent(tmpOld, pages.get(page)));
+		this.fireEvent(new TabChangedEvent(oldPage, newPage));
 	}
 
 	public void updateButtonsPanel() {
 		this.buttonsPanel.clear();
-		this.buttonsPanel.setVisible(false);
-		if(pages.size() > 0) {
-			this.buttonsPanel.setVisible(true);
-		}
 
 		int y = 0;
 		int x = edge == TabDockEdge.NORTH ? 4 : 0;
@@ -123,7 +137,7 @@ public class WidgetTabsPanel extends WidgetPanel {
 
 	@Override
 	public void draw(GuiGraphics guiGraphics, Screen screen) {
-		GUIHelper.drawWindow(guiGraphics, this.width, this.height - 30, false, this.x - 9, this.y - 10 + 32);
+		GUIHelper.drawWindow(guiGraphics, this.width, this.height - 28, false, this.x - 9, this.y + 19);
 		super.draw(guiGraphics, screen);
 	}
 

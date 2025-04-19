@@ -1,42 +1,34 @@
 package com.davenonymous.whodoesthat;
 
-import com.davenonymous.whodoesthat.config.ActionConfig;
+import com.davenonymous.whodoesthat.config.ConfigScreen;
 import com.davenonymous.whodoesthat.config.ModConfig;
-import com.davenonymous.whodoesthat.config.PathConfig;
-import com.davenonymous.whodoesthat.data.AllModsAnalyzer;
-import com.davenonymous.whodoesthat.data.result.FullAnalysisResult;
-import com.davenonymous.whodoesthat.gui.ModOverviewScreen;
+import com.davenonymous.whodoesthat.setup.ScanHelper;
+import com.davenonymous.whodoesthatlib.api.result.IScanResult;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.InterModComms;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.neoforged.neoforge.client.gui.ConfigurationScreen;
+import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import org.slf4j.Logger;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.attribute.FileTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Mod(value = WhoDoesThat.MODID, dist = Dist.CLIENT)
 public class WhoDoesThat {
 	public static final String MODID = "whodoesthat";
 	public static final Logger LOGGER = LogUtils.getLogger();
 	public static ModContainer CONTAINER;
-	public static FullAnalysisResult LAST_ANALYSIS;
+	public static IScanResult LAST_ANALYSIS;
+	public static Map<String, Set<String>> reverseDependencies = new HashMap<>();
 
 	public WhoDoesThat(IEventBus modEventBus, ModContainer modContainer) {
 		CONTAINER = modContainer;
@@ -51,84 +43,16 @@ public class WhoDoesThat {
 
 	@SubscribeEvent
 	public void onClientSetup(FMLClientSetupEvent event) {
+		CONTAINER.registerExtensionPoint(IConfigScreenFactory.class, ConfigScreen::createScreen);
+	}
 
-		CONTAINER.registerExtensionPoint(
-			IConfigScreenFactory.class, (modContainer, screen) -> {
-				return new ConfigurationScreen(
-					modContainer, screen, (configurationScreen, type, modConfig, component) -> {
-					return new ConfigurationScreen.ConfigurationSectionScreen(configurationScreen, type, modConfig, component) {
-						@Override
-						protected Collection<? extends Element> createSyntheticValues() {
-							Button generate = new Button.Builder(
-								Component.translatable("whodoesthat.configuration.generate_now.button"),
-								button -> {
-									int modCount = ModList.get().getMods().size();
-									final long startTime = System.nanoTime();
-									Optional<String> error = AllModsAnalyzer.generateModInfoFilesLogged();
-									final long endTime = System.nanoTime();
-									final long duration = (endTime - startTime) / 1000000;
-
-									if(error.isPresent()) {
-										button.setMessage(Component.translatable("whodoesthat.configuration.generate_now.error"));
-										button.setTooltip(Tooltip.create(Component.literal(error.get())));
-									} else {
-										button.setMessage(Component.translatable("whodoesthat.configuration.generate_now.success"));
-										button.setTooltip(Tooltip.create(Component.translatable("whodoesthat.configuration.generate_now.success.tooltip", modCount, duration)));
-									}
-								}
-							).build();
-
-							Button show = new Button.Builder(
-								Component.translatable("whodoesthat.configuration.show.button"),
-								button -> {
-									Minecraft.getInstance().pushGuiLayer(new ModOverviewScreen());
-								}
-							).build();
-
-							return List.of(
-								new Element(
-									Component.translatable("whodoesthat.configuration.generate_now"),
-									Component.translatable("whodoesthat.configuration.generate_now.tooltip"),
-									generate
-								),
-								new Element(
-									Component.translatable("whodoesthat.configuration.show"),
-									Component.translatable("whodoesthat.configuration.show.tooltip"),
-									show
-								)
-							);
-						}
-					};
-				}
-				);
-			}
-		);
+	@SubscribeEvent
+	public void imcEnqueue(InterModEnqueueEvent event) {
+		InterModComms.sendTo("darkmodeeverywhere", "dme-shaderblacklist", () -> "com.davenonymous.whodoesthat");
 	}
 
 	@SubscribeEvent
 	public void loadingFinished(FMLLoadCompleteEvent event) {
-		if(!ActionConfig.generateOnStartup) {
-			return;
-		}
-
-		boolean shouldGenerate = true;
-		if(!ActionConfig.forceGenerateOnStartup && Files.exists(PathConfig.outputFileJson)) {
-			shouldGenerate = false;
-			try {
-				FileTime modified = Files.getLastModifiedTime(PathConfig.outputFileJson);
-				for(var modInfo : ModList.get().getModFiles()) {
-					if(Files.getLastModifiedTime(modInfo.getFile().getFilePath()).compareTo(modified) > 0) {
-						shouldGenerate = true;
-						break;
-					}
-				}
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-
-		if(shouldGenerate) {
-			AllModsAnalyzer.generateModInfoFilesAsync();
-		}
+		ScanHelper.generateModInfoFilesAsync();
 	}
 }

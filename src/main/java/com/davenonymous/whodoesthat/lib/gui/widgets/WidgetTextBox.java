@@ -1,6 +1,7 @@
 package com.davenonymous.whodoesthat.lib.gui.widgets;
 
 
+import com.davenonymous.whodoesthat.lib.gui.GUIHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -32,6 +33,10 @@ public class WidgetTextBox extends Widget {
 
 	public void autoWidth() {
 		this.setWidth(Minecraft.getInstance().font.width(FormattedText.of(text, style)) + 2);
+	}
+
+	public void autoWidth(int maxWidth) {
+		this.setWidth(Math.min(Minecraft.getInstance().font.width(FormattedText.of(text, style)) + 2, maxWidth));
 	}
 
 	public WidgetTextBox setStyle(Function<Style, Style> style) {
@@ -90,9 +95,9 @@ public class WidgetTextBox extends Widget {
 
 		RenderSystem.enableScissor(getActualX() * scale - 3, bottomOffset + 2, width * scale, heightTmp);
 		if(wordWrap) {
-			pGuiGraphics.drawWordWrap(screen.getMinecraft().font, FormattedText.of(text, style), 0, 0, width, textColor);
+			GUIHelper.drawWordWrap(pGuiGraphics, screen.getMinecraft().font, FormattedText.of(text, style), 0, 0, width, textColor);
 		} else {
-			pGuiGraphics.drawString(screen.getMinecraft().font, text, 0, 0, textColor, dropShadow);
+			GUIHelper.drawWordWrap(pGuiGraphics, screen.getMinecraft().font, FormattedText.of(text, style), 0, 0, Integer.MAX_VALUE, textColor);
 		}
 		RenderSystem.disableScissor();
 

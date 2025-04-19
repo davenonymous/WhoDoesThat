@@ -10,13 +10,15 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 public class ModConfig {
 	public static final ModConfigSpec CLIENT_SPEC;
 	public static final PathConfig Paths;
-	public static final ActionConfig Actions;
+	public static final ReportsConfig Reports;
+	public static final GuiConfig GUI;
 
 	static {
 		var clientBuilder = new ModConfigSpec.Builder();
 
 		Paths = new PathConfig(clientBuilder);
-		Actions = new ActionConfig(clientBuilder);
+		Reports = new ReportsConfig(clientBuilder);
+		GUI = new GuiConfig(clientBuilder);
 
 		CLIENT_SPEC = clientBuilder.build();
 	}
@@ -25,7 +27,8 @@ public class ModConfig {
 	static void onLoad(final ModConfigEvent event) {
 		if(event.getConfig().getSpec() == CLIENT_SPEC) {
 			Paths.load();
-			Actions.load();
+			Reports.load();
+			GUI.load();
 		}
 	}
 }

@@ -18,12 +18,32 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix4f;
 
 public class GUIHelper {
 	public static ResourceLocation tabIcons = WhoDoesThat.resource("textures/gui/tabicons.png");
+
+	public static int longestWrappedLine(Font font, FormattedText text, int lineWidth) {
+		int longest = 0;
+		for(FormattedCharSequence formattedcharsequence : font.split(text, lineWidth)) {
+			longest = Math.max(longest, font.width(formattedcharsequence));
+		}
+		return longest;
+	}
+
+	public static void drawWordWrap(GuiGraphics pGuiGraphics, Font font, FormattedText text, int x, int y, int lineWidth, int color) {
+		for(FormattedCharSequence formattedcharsequence : font.split(text, lineWidth)) {
+			pGuiGraphics.drawString(font, formattedcharsequence, x, y, color, false);
+			y += 10;
+		}
+	}
+
+	public static int wordWrapHeight(Font font, FormattedText text, int maxWidth) {
+		return 10 * font.split(text, maxWidth).size();
+	}
 
 	public static void drawStringCentered(GuiGraphics pGuiGraphics, String str, Screen screen, float x, float y, int color) {
 		Font renderer = screen.getMinecraft().font;

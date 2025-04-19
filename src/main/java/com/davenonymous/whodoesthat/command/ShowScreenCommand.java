@@ -1,6 +1,6 @@
 package com.davenonymous.whodoesthat.command;
 
-import com.davenonymous.whodoesthat.gui.ModOverviewScreen;
+import com.davenonymous.whodoesthat.gui.overview.ModOverviewScreen;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
